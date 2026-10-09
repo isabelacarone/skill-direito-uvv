@@ -16,7 +16,7 @@
 
 - [ ] **REV-01**: Dado um trecho e a seção do trabalho, a skill devolve parecer (Conforme / Ajustes necessários / Crítico) com 2 a 4 frases de diagnóstico
 - [ ] **REV-02**: A skill devolve tabela de inconformidades em que cada linha traz trecho original, origem da regra (item e página, "Regra do curso" ou "NBR geral"), problema e correção já reescrita
-- [ ] **REV-03**: A skill aponta afirmação sem fonte com `[Inserir autor, ano, p.]`, *apud* invertido, página ausente em citação direta e supressão mal marcada
+- [x] **REV-03**: A skill aponta afirmação sem fonte com `[Inserir autor, ano, p.]`, *apud* invertido, página ausente em citação direta e supressão mal marcada
 - [ ] **REV-04**: Se o trecho vier sem a seção do trabalho, a skill pergunta a seção antes de avaliar
 
 ### Formatar
@@ -64,7 +64,7 @@
 | BASE-04 | Phase 1 | Pending |
 | REV-01 | Phase 1 | Pending |
 | REV-02 | Phase 1 | Pending |
-| REV-03 | Phase 1 | Pending |
+| REV-03 | Phase 1 | Complete |
 | REV-04 | Phase 1 | Pending |
 | FMT-01 | Phase 2 | Pending |
 | FMT-02 | Phase 2 | Pending |
