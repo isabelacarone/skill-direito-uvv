@@ -12,6 +12,9 @@ import checar_references as cr  # noqa: E402
 RAIZ = cr.RAIZ
 SKILL = RAIZ / ".claude" / "skills" / "abnt-uvv-direito"
 CASOS = RAIZ / "tests" / "revisar"
+CASOS_FORMATAR = RAIZ / "tests" / "formatar"
+MIN_FORMATAR = 2
+PROIBIDAS_SKILL = ["Fase 2", "ainda não gera"]
 ARQUIVOS = [
     "formatacao-grafica", "pre-textuais", "citacoes",
     "tabelas-ilustracoes", "referencias-direito", "regras-curso-direito",
@@ -29,7 +32,7 @@ SECOES_CASO = ["## Entrada", "## Esperado", "## Não pode"]
 CITACAO = re.compile(r"Manual (\d+(?:\.\d+)*), p\. (\d+)(?:[–-](\d+))?")
 
 
-def checar(skill=SKILL, casos=CASOS, mapa=None):
+def checar(skill=SKILL, casos=CASOS, mapa=None, casos_formatar=CASOS_FORMATAR):
     erros = []
     if mapa is None:
         mapa = json.loads((cr.TOOLS / "manual_mapa.json").read_text(encoding="utf-8"))
@@ -77,13 +80,28 @@ def checar(skill=SKILL, casos=CASOS, mapa=None):
     return erros
 
 
+def base_controle():
+    """SKILL.md real sem as marcas da Fase 1 e com o minimo do modo Formatar."""
+    linhas = SKILL.joinpath("SKILL.md").read_text(encoding="utf-8").splitlines()
+    linhas = [l for l in linhas if not any(p in l for p in PROIBIDAS_SKILL)]
+    texto = "\n".join(linhas)
+    if "## Fluxo do modo Formatar" not in texto:
+        texto += "\n## Fluxo do modo Formatar"
+    if "Regra aplicada:" not in texto:
+        texto += "\nRegra aplicada: Manual 4.1.1, p. 36"
+    return texto + "\n"
+
+
+CASO_NEUTRO = "## Entrada\n## Esperado\nsaida neutra\n## Não pode\n"
+
+
 def autoteste():
     """Cada defeito simulado precisa gerar erro; a skill minima sem defeito, nao."""
     ok = True
     mapa = json.loads((cr.TOOLS / "manual_mapa.json").read_text(encoding="utf-8"))
-    base = SKILL.joinpath("SKILL.md").read_text(encoding="utf-8")
+    base = base_controle()
 
-    def montar(tmp, texto, remover=None, casos=6):
+    def montar(tmp, texto, remover=None, casos=6, formatar=2, caso_f=CASO_NEUTRO):
         sk = tmp / "skill"
         (sk / "references").mkdir(parents=True)
         for a in ARQUIVOS:
@@ -95,21 +113,38 @@ def autoteste():
         cs.mkdir()
         for i in range(casos):
             (cs / f"caso-0{i}.md").write_text("## Entrada\n## Esperado\n## Não pode\n", encoding="utf-8")
-        return sk, cs
+        cf = tmp / "formatar"
+        cf.mkdir()
+        for i in range(formatar):
+            (cf / f"caso-0{i}.md").write_text(caso_f, encoding="utf-8")
+        return sk, cs, cf
 
+    def caso(esperado):
+        return f"## Entrada\n## Esperado\n{esperado}\n## Não pode\n"
+
+    # nome: (skill, references removido, casos revisar, casos formatar, texto do caso formatar, erro esperado)
     defeitos = {
-        "controle (sem defeito)": (base, None, 6, False),
-        "references ausente": (base, "citacoes", 6, True),
-        "SKILL.md longo": (base + "\nx" * 200, None, 6, True),
-        "sem name": (base.replace("name: abnt-uvv-direito", "name: outra", 1), None, 6, True),
-        "string obrigatoria": (base.replace("[Inserir autor, ano, p.]", "[x]"), None, 6, True),
-        "pagina fora do mapa": (base + "\nManual 4.1.3, p. 9\n", None, 6, True),
-        "poucos casos": (base, None, 3, True),
+        "controle (sem defeito)": (base, None, 6, 2, CASO_NEUTRO, False),
+        "references ausente": (base, "citacoes", 6, 2, CASO_NEUTRO, True),
+        "SKILL.md longo": (base + "\nx" * 200, None, 6, 2, CASO_NEUTRO, True),
+        "sem name": (base.replace("name: abnt-uvv-direito", "name: outra", 1), None, 6, 2, CASO_NEUTRO, True),
+        "string obrigatoria": (base.replace("[Inserir autor, ano, p.]", "[x]"), None, 6, 2, CASO_NEUTRO, True),
+        "pagina fora do mapa": (base + "\nManual 4.1.3, p. 9\n", None, 6, 2, CASO_NEUTRO, True),
+        "poucos casos": (base, None, 3, 2, CASO_NEUTRO, True),
+        "formatar sem Esperado": (base, None, 6, 2, "## Entrada\n## Não pode\n", True),
+        "origem fabricada no caso": (base, None, 6, 2, caso("Regra aplicada: Manual 4.1.2, p. 37"), True),
+        "link com < >": (base, None, 6, 2, caso("Disponível em: <http://x.br>."), True),
+        "mes por extenso": (base, None, 6, 2, caso("Acesso em: 26 de junho de 2019."), True),
+        "mes abreviado": (base, None, 6, 2, caso("Acesso em: 26 jun. 2019."), False),
+        "maio sem ponto": (base, None, 6, 2, caso("Acesso em: 3 maio 2020."), False),
+        "Fase 2 no SKILL": (base + "\nFase 2\n", None, 6, 2, CASO_NEUTRO, True),
+        "sem fluxo Formatar": (base.replace("## Fluxo do modo Formatar", "## X"), None, 6, 2, CASO_NEUTRO, True),
+        "poucos casos formatar": (base, None, 6, 1, CASO_NEUTRO, True),
     }
-    for nome, (texto, remover, casos, esperado_erro) in defeitos.items():
+    for nome, (texto, remover, casos, formatar, caso_f, esperado_erro) in defeitos.items():
         with tempfile.TemporaryDirectory() as t:
-            sk, cs = montar(Path(t), texto, remover, casos)
-            erros = checar(sk, cs, mapa)
+            sk, cs, cf = montar(Path(t), texto, remover, casos, formatar, caso_f)
+            erros = checar(sk, cs, mapa, casos_formatar=cf)
         if bool(erros) != esperado_erro:
             print(f"FALHA no autoteste: {nome} (erros={erros[:2]})")
             ok = False
