@@ -23,7 +23,7 @@ MANUAL_SEM_ITEM = re.compile(r"^Manual, p\. (\d+)$")
 CURSO = re.compile(r"^Regra do curso \((?:Projeto de Pesquisa|Estudo Dirigido I), [^)]+\)$")
 NBR = re.compile(r"^(?:NBR \d+:\d{4}|NBR geral)$")
 AUTORA = "Decisão da autora"
-PENDENCIA = re.compile(r"p\. \?|p\. X\b|TODO|\[conferir\]")
+PENDENCIA = re.compile(r"p\. \?|p\. X\b|\bTODO\b|\[conferir\]")
 
 
 def checar_origem(parte, mapa):

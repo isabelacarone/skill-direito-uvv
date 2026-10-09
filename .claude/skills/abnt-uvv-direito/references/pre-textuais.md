@@ -2,7 +2,7 @@
 
 > Fonte: Manual de Normas ABNT da UVV (2024), cap. 2 (p. 8–27) e Anexo A (p. 71); regras do Projeto de Pesquisa onde divergem do manual. Páginas = numeração impressa do Manual UVV 2024.
 
-Modelos prontos de capa e folha de rosto não ficam aqui (são geração de documento). Aqui só as regras verificáveis numa revisão.
+Os modelos de capa, folha de rosto e sumário para gerar ficam em `## Modelos para gerar (modo Formatar)`, no fim deste arquivo. O resto são as regras verificáveis numa revisão.
 
 ## Capa
 
@@ -68,3 +68,83 @@ Modelos prontos de capa e folha de rosto não ficam aqui (são geração de docu
 
 - **PRE-33** Ordem: capa, folha de rosto, folha de aprovação, dedicatória, agradecimentos, epígrafe, resumo, abstract, listas (ilustrações, tabelas, abreviaturas, símbolos), sumário, introdução, desenvolvimento, conclusão, referências, apêndice, anexo — Manual, p. 71
 - **PRE-34** Pré-textuais são contados, mas não numerados; do texto em diante (inclusive referências, apêndice e anexo) são contados e numerados em algarismos arábicos — Manual, p. 71
+
+## Modelos para gerar (modo Formatar)
+
+Cada modelo é uma linha de modelo seguida de um bloco com uma linha por elemento e, à direita, a formatação entre chaves. Texto fixo é copiado; dado entre colchetes é obrigatório: faltando, pedir à autora, nunca preencher nem usar nome do modelo do curso como se fosse dela. Na saída, repetir o bloco e passar a formatação para `Formatação no Word:`. A escolha do modelo vale por elemento: o elemento com obrigatório faltante fica retido e os demais saem.
+
+- **PRE-35** Modelo escolha pelo tipo de documento: Projeto de Pesquisa/Monografia I usa os modelos "Projeto de Pesquisa"; TCC final usa os modelos "TCC final"; tipo não informado: perguntar — Regra do curso (Projeto de Pesquisa, capa); Decisão da autora
+- **PRE-36** Modelo capa Projeto de Pesquisa; Obrigatórios: nome completo da autora, delimitação do tema, local e ano — Regra do curso (Projeto de Pesquisa, capa); Regra do curso (Projeto de Pesquisa, item 2.1 Delimitação do tema); Manual 2.1.1, p. 8
+  ```
+  UNIVERSIDADE VILA VELHA – UVV                    {caixa alta, negrito, centralizado, Arial}
+  CURSO DE DIREITO – D8Ma                          {caixa alta, negrito, centralizado, espaçamento 1,5 em relação à linha acima}
+  MONOGRAFIA I                                     {caixa alta, negrito, centralizado}
+  [NOME COMPLETO DA AUTORA]                        {caixa alta, negrito, centralizado}
+  PROJETO DE PESQUISA: [DELIMITAÇÃO DO TEMA]       {caixa alta, negrito, centralizado, 14 pt}
+  [CIDADE-UF]                                      {caixa alta, negrito, centralizado}
+  [ANO]                                            {negrito, centralizado}
+  ```
+  - Nota: no modelo do curso "PROJETO DE PESQUISA" é texto fixo e ": SUBTÍTULO" é o trecho a trocar pela delimitação do tema (CUR-13); "D8Ma" aparece em vermelho no modelo (turma), copiada como está. O modelo do curso traz local e ano sem negrito, mas PRE-05 manda negrito; vale o texto da regra.
+- **PRE-37** Modelo folha de rosto Projeto de Pesquisa; Obrigatórios: nome completo da autora, delimitação do tema, orientador com titulação e nome completo, local e ano; coorientador só se houver — Regra do curso (Projeto de Pesquisa, folha de rosto); Regra do curso (Projeto de Pesquisa, item 2.1 Delimitação do tema); Manual 2.1.2, p. 10
+  ```
+  [NOME COMPLETO DA AUTORA]                        {caixa alta, centralizado}
+  PROJETO DE PESQUISA: [DELIMITAÇÃO DO TEMA]       {caixa alta, negrito, centralizado, 14 pt}
+  Projeto de Pesquisa apresentado ao Curso de Graduação em Direito da Universidade Vila Velha-UVV/ES, como requisito parcial para aprovação na disciplina Monografia I.     {Arial 10, justificado, espaçamento simples, sem negrito, recuo à esquerda de 8 cm: do centro à margem direita}
+  Orientador(a): Prof(a). [titulação]. [nome completo].     {mesma formatação e mesmo recuo da nota}
+  Coorientador(a): Prof(a). [titulação]. [nome completo].   {só se houver; mesma formatação}
+  [CIDADE – UF]                                    {caixa alta, centralizado}
+  [ANO]                                            {centralizado}
+  ```
+  - Nota: o modelo do curso grafa a nota em Arial 11; PRE-10 manda Arial 10; vale o texto da regra. A linha do coorientador não está no modelo do curso e segue o molde da linha do orientador (PRE-08 exige coorientador, se houver). No modelo do curso o local da folha de rosto vem como "VILA VELHA - ES" (hífen com espaços), diferente da capa ("VILA VELHA-ES"); copiar a grafia do modelo para cada folha.
+- **PRE-38** Modelo sumário Projeto de Pesquisa: os nove itens do modelo do curso na grafia do modelo; só se paginam os itens que a autora disser que têm texto desenvolvido; Obrigatórios: quais itens têm texto e a página de cada um — Regra do curso (Projeto de Pesquisa, sumário); Regra do curso (Projeto de Pesquisa, nota do Sumário); Manual 2.1.9, p. 24
+  ```
+  SUMÁRIO                                          {caixa alta, negrito, centralizado, sem pontuação}
+  1 JUSTIFICATIVA ........................ [página]          {caixa alta, negrito}
+  2 OBJETO                                         {caixa alta, negrito, sem página}
+  2.1 DELIMITAÇÃO DO TEMA ................ [página]          {caixa alta, sem negrito}
+  2.2 PROBLEMA ........................... [página]          {caixa alta, sem negrito}
+  3 OBJETIVOS                                      {caixa alta, negrito, sem página}
+  3.1 OBJETIVO GERAL ..................... [página]          {caixa alta, sem negrito}
+  3.2 OBJETIVOS ESPECÍFICOS .............. [página]          {caixa alta, sem negrito}
+  4 ESTRUTURA DO TRABALHO ................ [página]          {caixa alta, negrito}
+  5 REFERENCIAL TEÓRICO .................. [página]          {caixa alta, negrito}
+  6 METODOLOGIA .......................... [página]          {caixa alta, negrito}
+  7 LEVANTAMENTO BIBLIOGRÁFICO ........... [página]          {caixa alta, negrito}
+  8 CRONOGRAMA DE ATIVIDADES ............. [página]          {caixa alta, negrito}
+  9 REFERÊNCIAS .......................... [página]          {caixa alta, negrito}
+  ```
+  - Nota: os itens sem texto desenvolvido (no modelo do curso, 2 OBJETO e 3 OBJETIVOS) saem sem página e sem linha de pontos; nos demais a página é a que a autora informar, à direita, com linha de pontos. Item com texto cuja página a autora não deu: pedir. Pré-textuais não entram (PRE-27). A nota de orientação do modelo ("apagar esta orientação para a versão final") não vai para o sumário.
+- **PRE-39** Modelo capa TCC final (Figura 1, p. 9); Obrigatórios: nome completo do autor, título, local e ano; subtítulo só se houver — Manual 2.1.1, p. 9; Manual 2.1.1, p. 8
+  ```
+  UNIVERSIDADE VILA VELHA                          {caixa alta, negrito, centralizado}
+  CURSO DE DIREITO                                 {caixa alta, negrito, centralizado, espaçamento 1,5 em relação à linha acima}
+  [NOME COMPLETO DO AUTOR]                         {caixa alta, negrito, centralizado}
+  [TÍTULO]: [subtítulo]                            {título em caixa alta e negrito; subtítulo após dois-pontos, sem negrito; centralizado}
+  [CIDADE]                                         {caixa alta, negrito, centralizado}
+  [ANO]                                            {negrito, centralizado}
+  ```
+  - Nota: a figura traz o marcador "CURSO" na segunda linha, trocado aqui pelo curso de Direito, que é o da autora; a figura grafa o subtítulo em caixa alta, mas PRE-04 só manda caixa alta no título, e vale o texto da regra. A figura não traz o cabeçalho "MONOGRAFIA I".
+- **PRE-40** Modelo folha de rosto TCC final (Figura 2, p. 11); Obrigatórios: nome completo do autor, título, orientador com titulação e nome completo, local e ano; coorientador só se houver — Manual 2.1.2, p. 11; Manual 2.1.2, p. 10
+  ```
+  [NOME COMPLETO DO AUTOR]                         {caixa alta, negrito, centralizado}
+  [TÍTULO]: [subtítulo]                            {título em caixa alta e negrito; subtítulo após dois-pontos, sem negrito; centralizado}
+  Trabalho de Conclusão de Curso apresentado à Universidade Vila Velha como pré-requisito do Programa de Graduação em Direito.     {Arial 10, justificado, espaçamento simples, sem negrito, do centro à margem direita}
+  Orientador: Prof. [titulação]. [nome completo].  {mesma formatação e mesma posição da nota, linha própria}
+  Coorientador: Prof. [titulação]. [nome completo]. {só se houver; mesma formatação}
+  [CIDADE]                                         {caixa alta, negrito, centralizado}
+  [ANO]                                            {negrito, centralizado}
+  ```
+  - Nota: a figura traz "em Nome do Curso", trocado por Direito; o texto da nota segue a figura, não o do Projeto de Pesquisa. A figura não traz linha de coorientador; ela segue o molde da linha do orientador (PRE-08 exige coorientador, se houver).
+- **PRE-41** Modelo sumário TCC final (Figura 11, p. 25); a lista de seções e as páginas vêm da autora; Obrigatórios: seções com número e título, página de cada uma; página faltando: pedir e, se a autora ainda não tiver, escrever `[Inserir página]` — Manual 2.1.9, p. 25; Manual 2.1.9, p. 24; Manual 3.4, p. 34
+  ```
+  SUMÁRIO                                          {caixa alta, negrito, centralizado, sem pontuação}
+  1 [SEÇÃO PRIMÁRIA] ..................... [página]          {caixa alta, negrito}
+  1.1 [SEÇÃO SECUNDÁRIA] ................. [página]          {caixa alta, sem negrito}
+  1.1.1 [Seção terciária] ................ [página]          {negrito}
+  1.1.1.1 [Seção quaternária] ............ [página]          {sem destaque}
+  1.1.1.1.1 [Seção quinária] ............. [página]          {itálico}
+  REFERÊNCIAS ............................ [página]          {caixa alta, negrito, sem número, alinhada ao título das seções}
+  ANEXO A - [TÍTULO] ..................... [página]          {caixa alta, negrito, só se houver}
+  APÊNDICE A - [TÍTULO] .................. [página]          {caixa alta, negrito, só se houver}
+  ```
+  - Nota: o sumário usa a mesma grafia por nível do texto (GRA-18); pré-textuais não entram, mas referências, apêndices e anexos entram, como na figura. Números das seções à esquerda, páginas à direita com linha de pontos. A figura grafa "APENDICE" sem acento; vale a ortografia correta.
