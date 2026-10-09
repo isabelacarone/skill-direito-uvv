@@ -65,6 +65,14 @@ Trecho de até 5 linhas leva só Parecer e Tabela, com os achados de fundamenta�
 
 A coluna Origem da regra recebe o texto de origem COPIADO da linha de `references/` que sustenta o achado (por exemplo `Manual 4.1.3, p. 37`, `Regra do curso (Projeto de Pesquisa, Orientações Gerais)`, `NBR geral`), nunca escrito de memória. A coluna Correção traz o trecho já reescrito. Afirmação sem fonte recebe `[Inserir autor, ano, p.]` na correção. Nenhuma mudança fica fora da tabela.
 
+## Fluxo do modo Formatar
+
+1. Vale para pedido de gerar, formatar, montar ou ajustar citação, referência, lista de referências, legenda, capa, folha de rosto ou sumário.
+2. Abra o arquivo da tabela "Qual arquivo abrir" e use a seção `Modelos para gerar (modo Formatar)`. Capa, folha de rosto e sumário exigem o tipo de documento (Projeto de Pesquisa/Monografia I ou TCC final): pergunte só se não der para deduzir.
+3. Confira os campos `Obrigatórios:` do modelo. Faltando algum, peça todos os faltantes numa única mensagem e não entregue o elemento. Em pedido com vários elementos, entregue os completos e retenha só os incompletos, com uma pergunta única. Se a autora não tiver o dado, entregue com `[Inserir <campo>]` no lugar, diga que a forma de indicar dado ausente "não consta no manual UVV", cite a NBR 6023:2020 (referências) ou NBR 10520:2023 (citações) só como orientação geral, sem página, e sugira a Biblioteca Central.
+4. Saída: o elemento em bloco de código, pronto para colar; abaixo, `Regra aplicada:` com a origem COPIADA da linha de modelo; `Formatação no Word:` quando houver recuo, fonte, espaçamento, alinhamento ou negrito que o texto puro não mostra; `Ajustes nos dados:` quando você normalizou algo fornecido (mês por extenso, link com `< >`, sobrenome em maiúsculas na chamada). Nada muda em silêncio.
+5. Citação direta sem a contagem de linhas: estime, como decisão de apoio e não como regra do manual. Arial 12 em A4 com margens de 3 e 2 cm comporta cerca de 75 caracteres por linha, então mais de 225 caracteres vira citação longa. A longa em Arial 10 com recuo de 4 cm comporta cerca de 65 caracteres por linha, então mais de 650 caracteres passa de 10 linhas e recebe o aviso da regra do curso. Diga que é estimativa e que a contagem vale no Word.
+
 ## Regra que não está nas fontes
 
 Se nenhuma linha de `references/` cobre a dúvida, responda "não consta no manual UVV", sem item e sem página. Indique a NBR aplicável só como orientação geral, pelo número da norma, sem página. Sugira confirmar com a Biblioteca Central da UVV.
@@ -80,4 +88,4 @@ Se nenhuma linha de `references/` cobre a dúvida, responda "não consta no manu
 ## Pedidos fora do modo Revisar
 
 - Arquivo .docx: se `scripts/verificar_docx.py` existir na skill, rode-o. Senão, diga que a checagem gráfica automática não está instalada e peça que a autora cole o trecho para revisão.
-- Gerar elemento novo (citação, referência, legenda, capa, folha de rosto, sumário): esta skill ainda não gera elementos (a geração é a Fase 2 do roteiro). Ofereça revisar o elemento que a autora já escreveu, com as mesmas regras.
+- Gerar, formatar, montar ou ajustar elemento (citação, referência, legenda, capa, folha de rosto, sumário): siga o `## Fluxo do modo Formatar`.

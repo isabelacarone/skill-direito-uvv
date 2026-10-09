@@ -97,3 +97,15 @@ Quando o texto do manual e o exemplo divergirem, vale o texto da regra. Uma cita
 - **CIT-40** Não misturar nota explicativa com nota de referência; se os dois tipos forem usados, vale a regra da nota de referência — Manual 4.5.1, p. 51
 - **CIT-41** Nota de referência: pode indicar as fontes consultadas, sem dispensar a seção de Referências; a primeira citação da obra na nota é completa (autor, título, local, editora e ano) — Manual 4.5.2, p. 52
 - **CIT-42** Nota de referência tem numeração única e consecutiva por capítulo ou parte, nunca reiniciada a cada página — Manual 4.5.2, p. 52
+
+## Modelos para gerar (modo Formatar)
+
+> Cada modelo traz o molde, os campos obrigatórios e a origem copiada das regras acima. Campos entre colchetes são preenchidos com os dados da autora; faltando um obrigatório, a skill pede antes de gerar.
+
+- **CIT-43** Modelo direta curta com autor na frase: `[Sobrenome] ([ano], p. [página]) [verbo] “[trecho]”.` Obrigatórios: autor, ano, página ou localização, trecho; até três linhas, aspas duplas, ponto final depois das aspas — Manual 4.1.2, p. 36; Manual 4.4.8, p. 45–46
+- **CIT-44** Modelo direta curta com autor entre parênteses: `“[trecho]” ([Sobrenome], [ano], p. [página]).` Obrigatórios: autor, ano, página ou localização, trecho; o ponto final vem depois do parêntese — Manual 4.1.5, p. 38; Manual 4.4.7, p. 45; Manual 4.1.2, p. 36
+- **CIT-45** Modelo direta longa (mais de três linhas): `[trecho] ([Sobrenome], [ano], p. [página]).` Obrigatórios: autor, ano, página ou localização, trecho; parágrafo isolado, sem aspas, recuo de 4 cm, Arial 10, espaçamento simples, e aviso quando passar de 10 linhas — Manual 4.1.3, p. 37; Regra do curso (Projeto de Pesquisa, Orientações Gerais)
+- **CIT-46** Modelo indireta com autor na frase: `[Sobrenome] ([ano]) [ideia com palavras próprias].` Obrigatórios: autor, ano; a página não é obrigatória — Manual 4.2, p. 39; Manual 4.4.8, p. 45–46
+- **CIT-47** Modelo indireta com autor entre parênteses: `[ideia com palavras próprias] ([Sobrenome], [ano]).` Obrigatórios: autor, ano; a página não é obrigatória — Manual 4.2, p. 39; Manual 4.4.7, p. 45
+- **CIT-48** Modelo apud entre parênteses: `([Sobrenome original], [ano original], p. [página original] apud [Sobrenome consultado], [ano consultado], p. [página consultada])` Obrigatórios: autor original, ano original, autor consultado, ano consultado, página do consultado se a citação for direta; página do original só se houver; o autor original vem sempre primeiro — Manual 4.3, p. 39–40
+- **CIT-49** Modelo apud na frase: `[Sobrenome original] ([ano original], p. [página original] apud [Sobrenome consultado], [ano consultado], p. [página consultada])` Obrigatórios: autor original, ano original, autor consultado, ano consultado, página do consultado se a citação for direta; na lista de referências entra só a fonte consultada — Manual 4.3, p. 39–40
