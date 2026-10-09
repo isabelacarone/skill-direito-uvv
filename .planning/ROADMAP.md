@@ -61,7 +61,7 @@ Plans:
   3. Capa, folha de rosto e sumário saem no modelo certo para Projeto de Pesquisa e para TCC final
   4. Quando falta ano, editora, página ou data de acesso, a skill pede o dado em vez de inventar
 
-**Plans:** 1/4 plans executed
+**Plans:** 2/4 plans executed
 
 Plans:
 **Wave 1**
@@ -70,7 +70,7 @@ Plans:
 
 **Wave 2**
 
-- [ ] 02-02-PLAN.md — Modelos de referência (livro, capítulo, artigo, trabalho acadêmico, site, evento, entrevista) e montagem da lista
+- [x] 02-02-PLAN.md — Modelos de referência (livro, capítulo, artigo, trabalho acadêmico, site, evento, entrevista) e montagem da lista
 
 **Wave 3**
 
@@ -115,6 +115,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
-| 2. Formatar elementos | 1/4 | In Progress|  |
+| 2. Formatar elementos | 2/4 | In Progress|  |
 | 3. Checar documento | 0/TBD | Not started | - |
 | 4. Validação | 0/TBD | Not started | - |

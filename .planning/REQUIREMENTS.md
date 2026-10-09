@@ -22,7 +22,7 @@
 ### Formatar
 
 - [x] **FMT-01**: A skill gera citação direta curta, direta longa (recuo 4 cm, Arial 10, sem aspas), indireta e *apud* no padrão UVV
-- [ ] **FMT-02**: A skill formata referências de livro, capítulo, artigo, trabalho acadêmico, site, evento e entrevista; 12 pt entre referências, alinhadas à esquerda
+- [x] **FMT-02**: A skill formata referências de livro, capítulo, artigo, trabalho acadêmico, site, evento e entrevista; 12 pt entre referências, alinhadas à esquerda
 - [ ] **FMT-03**: A skill formata referências de legislação, jurisprudência e atos administrativos normativos (manual 6.3.11 a 6.3.13)
 - [ ] **FMT-04**: A skill gera legenda de tabela, figura e quadro com título acima e `Fonte:` abaixo
 - [ ] **FMT-05**: A skill gera capa, folha de rosto e sumário nos dois modelos (Projeto/Monografia I e TCC final)
@@ -67,7 +67,7 @@
 | REV-03 | Phase 1 | Complete |
 | REV-04 | Phase 1 | Complete |
 | FMT-01 | Phase 2 | Complete |
-| FMT-02 | Phase 2 | Pending |
+| FMT-02 | Phase 2 | Complete |
 | FMT-03 | Phase 2 | Pending |
 | FMT-04 | Phase 2 | Pending |
 | FMT-05 | Phase 2 | Pending |
