@@ -2,7 +2,7 @@
 
 > Fonte: Manual de Normas ABNT da UVV (2024), cap. 5 (p. 53–55) e item 2.3.2, apêndices e anexos (p. 29–31). Páginas = numeração impressa do Manual UVV 2024.
 
-Os modelos de legenda prontos para colar pertencem à geração de texto, não a este arquivo.
+Os modelos de legenda para gerar ficam em `## Modelos para gerar (modo Formatar)`, no fim deste arquivo.
 
 ## Tabelas
 
@@ -41,3 +41,15 @@ Os modelos de legenda prontos para colar pertencem à geração de texto, não a
 - **TAB-18** Apêndice é o material elaborado pela própria autora (fotos, figuras, tabelas, quadros), identificado por APÊNDICE A, APÊNDICE B, APÊNDICE C — Manual 2.3.2, p. 30
 - **TAB-19** Anexo é o material de outra autoria, identificado por ANEXO A, ANEXO B, ANEXO C — Manual 2.3.2, p. 30
 - **TAB-20** Citações longas demais para o texto, ou não essenciais à compreensão, podem ir em apêndice ou anexo — Manual 2.3.2, p. 30
+
+## Modelos para gerar (modo Formatar)
+
+Cada linha traz o molde entre crases, os dados obrigatórios e a origem. Dado obrigatório ausente: pedir à autora, nunca preencher. A numeração da tabela, figura ou quadro é dado da autora (ordem de ocorrência no trabalho).
+
+- **TAB-21** Modelo título de tabela: `Tabela [número] - [Título com só a primeira palavra em maiúscula]` acima da tabela, sem ponto final; Obrigatórios: número e título; demais palavras em minúsculas, salvo nome próprio — Manual 5.1, p. 53; Manual 5.1.1, p. 53
+  - Nota: o exemplo "Tabela 1 - ... fertilização." da p. 54 traz ponto final, mas os títulos impressos nas p. 53 a 55 saem sem ponto; vale o padrão sem ponto.
+- **TAB-22** Modelo título de ilustração: `[Figura|Quadro|Gráfico] [número] - [Título com só a primeira palavra em maiúscula]` acima da ilustração, sem ponto final; Obrigatórios: designação, número e título — Manual 5.2.1, p. 54–55
+- **TAB-23** Modelo fonte de terceiro: `Fonte: [Autor] ([ano], p. [página]).` abaixo da tabela ou ilustração; Obrigatórios: autor, ano e página; a obra entra completa na seção REFERÊNCIAS — Manual 5.1.1, p. 54; Manual 5.2.1, p. 55
+- **TAB-24** Modelo fonte própria: `Fonte: Elaborado pelo autor.` abaixo da tabela ou ilustração; autoria não informada: perguntar se é própria ou de terceiro antes de escrever a fonte — Manual 5.2.1, p. 55; Manual 2.3.2, p. 29
+- **TAB-25** Modelo formatação da legenda: Arial 10 e espaçamento simples, título e fonte — Manual 3.1, p. 32
+- **TAB-26** Modelo tabela em mais de uma página: sem traço horizontal inferior na primeira página, cabeçalho repetido, e a indicação `continua`, `continuação` ou `conclusão` — Manual 5.1, p. 53
