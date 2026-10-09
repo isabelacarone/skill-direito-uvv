@@ -11,7 +11,7 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Revisar trechos** - Skill instalada e revisando citações, estilo e fundamentação com origem da regra
+- [x] **Phase 1: Revisar trechos** - Skill instalada e revisando citações, estilo e fundamentação com origem da regra (completed 2026-10-09)
 - [ ] **Phase 2: Formatar elementos** - Geração de citações, referências (inclusive legislação e jurisprudência), legendas, capa, folha de rosto e sumário
 - [ ] **Phase 3: Checar documento** - Script que relata a formatação gráfica de um .docx
 - [ ] **Phase 4: Validação** - Os 8 casos de teste do briefing rodam e passam
@@ -31,7 +31,7 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
   3. Uma citação direta longa mal formatada, um *apud* invertido e uma afirmação sem fonte são todos apontados, esta última com `[Inserir autor, ano, p.]`
   4. Um trecho sem seção informada leva a skill a perguntar a seção, e uma regra fora dos documentos gera "não consta no manual" sem página inventada
 
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
 **Wave 1**
@@ -46,7 +46,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-05-PLAN.md — SKILL.md do modo Revisar, verificador da skill, 6 casos e aprovação da autora
+- [x] 01-05-PLAN.md — SKILL.md do modo Revisar, verificador da skill, 6 casos e aprovação da autora
 
 ### Phase 2: Formatar elementos
 
@@ -97,7 +97,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Revisar trechos | 4/5 | In Progress|  |
+| 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
 | 2. Formatar elementos | 0/TBD | Not started | - |
 | 3. Checar documento | 0/TBD | Not started | - |
 | 4. Validação | 0/TBD | Not started | - |
