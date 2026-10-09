@@ -58,30 +58,30 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BASE-01 | TBD | Pending |
-| BASE-02 | TBD | Pending |
-| BASE-03 | TBD | Pending |
-| BASE-04 | TBD | Pending |
-| REV-01 | TBD | Pending |
-| REV-02 | TBD | Pending |
-| REV-03 | TBD | Pending |
-| REV-04 | TBD | Pending |
-| FMT-01 | TBD | Pending |
-| FMT-02 | TBD | Pending |
-| FMT-03 | TBD | Pending |
-| FMT-04 | TBD | Pending |
-| FMT-05 | TBD | Pending |
-| FMT-06 | TBD | Pending |
-| DOC-01 | TBD | Pending |
-| DOC-02 | TBD | Pending |
-| DOC-03 | TBD | Pending |
-| QA-01 | TBD | Pending |
-| QA-02 | TBD | Pending |
+| BASE-01 | Phase 1 | Pending |
+| BASE-02 | Phase 1 | Pending |
+| BASE-03 | Phase 1 | Pending |
+| BASE-04 | Phase 1 | Pending |
+| REV-01 | Phase 1 | Pending |
+| REV-02 | Phase 1 | Pending |
+| REV-03 | Phase 1 | Pending |
+| REV-04 | Phase 1 | Pending |
+| FMT-01 | Phase 2 | Pending |
+| FMT-02 | Phase 2 | Pending |
+| FMT-03 | Phase 2 | Pending |
+| FMT-04 | Phase 2 | Pending |
+| FMT-05 | Phase 2 | Pending |
+| FMT-06 | Phase 2 | Pending |
+| DOC-01 | Phase 3 | Pending |
+| DOC-02 | Phase 3 | Pending |
+| DOC-03 | Phase 3 | Pending |
+| QA-01 | Phase 4 | Pending |
+| QA-02 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19
+- Mapped to phases: 19
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-10-09*
