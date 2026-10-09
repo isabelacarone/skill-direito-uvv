@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 1 context gathered
-last_updated: "2026-10-09T18:58:32.328Z"
+last_updated: "2026-10-09T18:58:38.907Z"
 last_activity: 2026-10-09
 progress:
   total_phases: 4
@@ -47,6 +47,7 @@ Progress: [██░░░░░░░░] 20%
 | - | - | - | - |
 
 *Updated after each plan completion*
+| Phase 01 P01 | 15min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -56,6 +57,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 
 - [Init]: Skill só neste repositório, uso pessoal, v1 com os três modos
 - [Init]: Precedência Manual → Projeto → Estudo Dirigido → NBR; 12 pt entre referências; links sem `< >`
+- [Phase 01-01]: Item 4.1.9 do manual so existe no sumario; nao pode ser citado
 
 ### Pending Todos
 
