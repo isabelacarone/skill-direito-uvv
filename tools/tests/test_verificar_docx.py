@@ -141,7 +141,10 @@ class TestCLI(Base):
     def test_caso03(self):
         codigo, out, _ = self.cli(self.c03)
         self.assertEqual(codigo, 0)
-        self.assertNotIn("✘", out)
+        # a linha Resumo traz "0 ✘" por formato (P-18); so as demais nao podem ter ✘
+        restante = [x for x in out.splitlines() if not x.startswith("Resumo:")]
+        self.assertNotIn("✘", " ".join(restante))
+        self.assertIn("Resumo: 5 ✔, 0 ✘, 0 verificar manualmente", out)
 
     def test_nao_escreve(self):
         antes = self.c03.read_bytes()

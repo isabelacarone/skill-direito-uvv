@@ -251,6 +251,243 @@ def recuo_esquerdo_efetivo(par):
     return 0.0
 
 
+# ---------------------------------------------------------------- estrutura
+
+RE_ESTILO_TITULO = re.compile(r"^(Heading|Título|Titulo) (\d)$", re.IGNORECASE)
+RE_TITULO_NUM = re.compile(r"^(\d+(?:\.\d+){0,4})\.?\s+\S")
+RE_LEGENDA = re.compile(r"^(Tabela|Figura|Quadro|Gráfico|Grafico)\s+\d|^Fonte:")
+RE_SUMARIO = re.compile(r"\.{4,}|\t\s*\d+\s*$")
+FIM_CORPO = ("REFERÊNCIAS", "REFERENCIAS")
+
+
+def _nivel_outline(par):
+    for ppr in _ppr_da_cadeia(par):
+        if ppr is None:
+            continue
+        ol = ppr.find(qn("w:outlineLvl"))
+        if ol is not None and ol.get(qn("w:val")) is not None:
+            try:
+                return int(ol.get(qn("w:val"))) + 1
+            except ValueError:
+                return None
+    return None
+
+
+def nivel_titulo(par):
+    """Nivel do titulo (1 a 5) ou None se o paragrafo nao e titulo."""
+    texto = par.text.strip()
+    if not texto:
+        return None
+    nome = par.style.name if par.style is not None else ""
+    if re.match(r"^(toc|sum[aá]rio)", nome, re.IGNORECASE) or RE_SUMARIO.search(par.text):
+        return None
+    m = RE_ESTILO_TITULO.match(nome)
+    if m:
+        return int(m.group(2))
+    nivel = _nivel_outline(par)
+    if nivel is not None and nivel <= 9:
+        return nivel
+    m = RE_TITULO_NUM.match(texto)
+    if m and len(texto) <= 150 and texto[-1] not in ".;:":
+        return len(m.group(1).split("."))
+    return None
+
+
+def _e_citacao(par):
+    nome = par.style.name if par.style is not None else ""
+    if "Cita" in nome or "Quote" in nome:
+        return True
+    if recuo_esquerdo_efetivo(par) >= 1.5:
+        return True
+    tams = [tamanho_efetivo(r, par) for r in par.runs if r.text.strip()]
+    return bool(tams) and all(t is not None and t <= 11 for t in tams)
+
+
+def partes_do_documento(doc):
+    """Indices de titulos, corpo, legendas e candidatos a citacao longa."""
+    pars = doc.paragraphs
+    titulos = {i: nivel_titulo(p) for i, p in enumerate(pars)}
+    titulos = {i: n for i, n in titulos.items() if n is not None}
+    inicio = next((i for i, n in sorted(titulos.items()) if n == 1), None)
+    sem_inicio = inicio is None
+    if sem_inicio:
+        inicio = 0
+    fim = len(pars)
+    for i in range(inicio, len(pars)):
+        if pars[i].text.strip().upper() in FIM_CORPO:
+            fim = i
+            break
+    corpo = list(range(inicio, fim))
+    legendas = {i for i in corpo if RE_LEGENDA.match(pars[i].text.strip())}
+    citacoes = {i for i in corpo
+                if i not in titulos and i not in legendas and pars[i].text.strip()
+                and _e_citacao(pars[i])}
+    return {"titulos": titulos, "corpo": corpo, "legendas": legendas,
+            "citacoes": citacoes, "sem_inicio": sem_inicio}
+
+
+# ---------------------------------------------------------------- itens
+
+def fmt(v):
+    s = f"{v:.2f}"
+    if s.endswith("0"):
+        s = s[:-1]
+    return s.replace(".", ",")
+
+
+def _exemplo(i, par, valor):
+    t = par.text.strip()
+    if len(t) > 40:
+        t = t[:40] + "…"
+    return f"§{i} '{t}' ({valor})"
+
+
+def _item(chave, nome, rids, falhas, total, nao_resolvidos, ok_texto=""):
+    regras = [regra(r) for r in rids]
+    if falhas:
+        exs = "; ".join(_exemplo(i, p, v) for i, p, v in falhas[:3])
+        return {"chave": chave, "item": nome, "resultado": "✘", "regras": regras,
+                "detalhe": f"{len(falhas)} de {total} parágrafos: {exs}"}
+    if nao_resolvidos:
+        return {"chave": chave, "item": nome, "resultado": "verificar manualmente",
+                "regras": regras,
+                "detalhe": f"valor não resolvido em {len(nao_resolvidos)} parágrafo(s) (ex.: §{nao_resolvidos[0]})"}
+    return {"chave": chave, "item": nome, "resultado": "✔", "regras": regras,
+            "detalhe": ok_texto or f"{total} parágrafos conferidos"}
+
+
+def _itens_texto(doc, partes):
+    pars = doc.paragraphs
+    titulos, legendas, citacoes = partes["titulos"], partes["legendas"], partes["citacoes"]
+    base = [i for i in partes["corpo"]
+            if pars[i].text.strip() and i not in legendas and i not in citacoes]
+    corpo_puro = [i for i in base if i not in titulos]
+    lim_f, lim_e, lim_a = LIMIARES["GRA-03"], LIMIARES["GRA-05"], LIMIARES["GRA-05"]
+
+    f_falhas, f_nr, t_falhas, t_nr = [], [], [], []
+    for i in base:
+        p = pars[i]
+        fontes, tams = [], []
+        for r in p.runs:
+            if not r.text.strip():
+                continue
+            fontes.append(fonte_efetiva(r, p))
+            tams.append(tamanho_efetivo(r, p))
+        ruins = [f for f in fontes if f is not None and f.lower() != lim_f["fonte"].lower()]
+        if ruins:
+            f_falhas.append((i, p, ruins[0]))
+        elif any(f is None for f in fontes):
+            f_nr.append(i)
+        ruins = [t for t in tams if t is not None and abs(t - lim_f["tamanho"]) > 0.01]
+        if ruins:
+            t_falhas.append((i, p, fmt(ruins[0]) + " pt"))
+        elif any(t is None for t in tams):
+            t_nr.append(i)
+
+    e_falhas = []
+    a_falhas = []
+    nomes_al = {"left": "à esquerda", "start": "à esquerda", "center": "centralizado",
+                "right": "à direita", "end": "à direita", "distribute": "distribuído"}
+    for i in corpo_puro:
+        p = pars[i]
+        tipo, v = entrelinhas_efetiva(p)
+        if tipo == "auto":
+            if abs(v - lim_e["entrelinhas"]) > TOL_ENTRELINHAS:
+                e_falhas.append((i, p, f"entrelinhas {fmt(v)}"))
+        else:
+            rot = "exata" if tipo == "exact" else "mínima"
+            e_falhas.append((i, p, f"entrelinhas {rot} de {fmt(v)} pt"))
+        al = alinhamento_efetivo(p)
+        if al != "both":
+            a_falhas.append((i, p, nomes_al.get(al, al)))
+
+    return [
+        _item("fonte_corpo", "Fonte do corpo do texto (Arial)", ["GRA-03"],
+              f_falhas, len(base), f_nr),
+        _item("tamanho_corpo", "Tamanho da fonte do corpo do texto (12 pt)", ["GRA-03"],
+              t_falhas, len(base), t_nr),
+        _item("entrelinhas_corpo", "Entrelinhas do corpo do texto (1,5)", ["GRA-05"],
+              e_falhas, len(corpo_puro), []),
+        _item("alinhamento_corpo", "Alinhamento do corpo do texto (justificado)", ["GRA-05"],
+              a_falhas, len(corpo_puro), []),
+    ]
+
+
+def _item_margens(doc):
+    lim = LIMIARES["GRA-09"]
+    settings = doc.settings.element
+    gutter = any(
+        (s._sectPr.find(qn("w:pgMar")) is not None
+         and s._sectPr.find(qn("w:pgMar")).get(qn("w:gutter")) not in (None, "0"))
+        for s in doc.sections)
+    if settings.find(qn("w:mirrorMargins")) is not None or gutter:
+        return {"chave": "margens", "item": "Margens", "resultado": "verificar manualmente",
+                "regras": [regra("GRA-09"), regra("GRA-10")],
+                "detalhe": "margens espelhadas ou com medianiz: conferir anverso e verso à mão"}
+    lados = (("superior", "top_margin"), ("esquerda", "left_margin"),
+             ("direita", "right_margin"), ("inferior", "bottom_margin"))
+    secoes = []
+    nao_lido = False
+    for n, s in enumerate(doc.sections, 1):
+        fora = []
+        for nome, attr in lados:
+            v = getattr(s, attr)
+            if v is None:
+                nao_lido = True
+                continue
+            cm = v.cm
+            if abs(cm - lim[nome]) > TOL_CM:
+                fora.append(f"{nome} {fmt(cm)} cm")
+        if fora:
+            secoes.append((n, fora))
+    regras = [regra("GRA-09")]
+    if secoes:
+        multi = len(doc.sections) > 1
+        det = "; ".join((f"seção {n}: " if multi else "") + ", ".join(f) for n, f in secoes)
+        return {"chave": "margens", "item": "Margens (3/3/2/2 cm)", "resultado": "✘",
+                "regras": regras, "detalhe": det + " (esperado: superior e esquerda 3 cm; direita e inferior 2 cm)"}
+    if nao_lido:
+        return {"chave": "margens", "item": "Margens (3/3/2/2 cm)",
+                "resultado": "verificar manualmente", "regras": regras,
+                "detalhe": "margem não definida no arquivo"}
+    return {"chave": "margens", "item": "Margens (3/3/2/2 cm)", "resultado": "✔",
+            "regras": regras, "detalhe": f"{len(doc.sections)} seção(ões) conferida(s)"}
+
+
+def verificar(caminho):
+    doc = abrir(caminho)
+    partes = partes_do_documento(doc)
+    itens = _itens_texto(doc, partes)
+    itens.append(_item_margens(doc))
+    if partes["sem_inicio"]:
+        itens.append({"chave": "inicio_texto", "item": "Início do texto não identificado",
+                      "resultado": "verificar manualmente", "regras": [regra("GRA-12")],
+                      "detalhe": "nenhum título de nível 1; o documento inteiro foi tratado como corpo"})
+    return {"arquivo": Path(caminho).name, "itens": itens}
+
+
+def formatar(rel):
+    linhas = [f"# Relatório de formatação: {rel['arquivo']}", "",
+              "| # | Item | Resultado | Regra | Detalhe |", "|---|---|---|---|---|"]
+    n = 0
+    ok = ruim = 0
+    manuais = []
+    for it in rel["itens"]:
+        regras = "; ".join(f"{rid} ({org})" for rid, org in it["regras"])
+        if it["resultado"] == "verificar manualmente":
+            manuais.append(f"- {it['item']}: {it['detalhe']} — {regras}")
+            continue
+        n += 1
+        ok += it["resultado"] == "✔"
+        ruim += it["resultado"] == "✘"
+        det = it["detalhe"].replace("|", "\\|")
+        linhas.append(f"| {n} | {it['item']} | {it['resultado']} | {regras} | {det} |")
+    linhas += ["", "## Verificar manualmente", ""]
+    linhas += manuais or ["- nenhum item"]
+    linhas += ["", f"Resumo: {ok} ✔, {ruim} ✘, {len(manuais)} verificar manualmente"]
+    return "\n".join(linhas)
+
+
 # ---------------------------------------------------------------- saida
 
 def main(argv=None):
