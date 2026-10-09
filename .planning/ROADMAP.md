@@ -14,6 +14,7 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
 - [x] **Phase 1: Revisar trechos** - Skill instalada e revisando citações, estilo e fundamentação com origem da regra (completed 2026-10-09)
 - [x] **Phase 2: Formatar elementos** - Geração de citações, referências (inclusive legislação e jurisprudência), legendas, capa, folha de rosto e sumário
  (completed 2026-10-09)
+
 - [ ] **Phase 3: Checar documento** - Script que relata a formatação gráfica de um .docx
 - [ ] **Phase 4: Validação** - Os 8 casos de teste do briefing rodam e passam
 
@@ -96,8 +97,16 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 03-01-PLAN.md — verificar_docx.py: corpo (fonte, tamanho, entrelinhas, alinhamento) e margens, relatório ✔/✘ com origem; caso 7 do briefing
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 03-02-PLAN.md — citações longas, numeração de página e títulos (seção primária em página nova); 'verificar manualmente' para o que depende da paginação
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 03-03-PLAN.md — fluxo Checar documento no SKILL.md, checar_skill.py estendido, 4 casos em tests/checar e aprovação da autora
 
 ### Phase 4: Validação
