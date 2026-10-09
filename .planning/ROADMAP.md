@@ -12,7 +12,8 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 - [x] **Phase 1: Revisar trechos** - Skill instalada e revisando citações, estilo e fundamentação com origem da regra (completed 2026-10-09)
-- [x] **Phase 2: Formatar elementos** - Geração de citações, referências (inclusive legislação e jurisprudência), legendas, capa, folha de rosto e sumário (completed 2026-10-09)
+- [x] **Phase 2: Formatar elementos** - Geração de citações, referências (inclusive legislação e jurisprudência), legendas, capa, folha de rosto e sumário
+ (completed 2026-10-09)
 - [ ] **Phase 3: Checar documento** - Script que relata a formatação gráfica de um .docx
 - [ ] **Phase 4: Validação** - Os 8 casos de teste do briefing rodam e passam
 
@@ -92,7 +93,12 @@ Plans:
   2. O relatório aponta citações longas sem recuo de 4 cm ou fora de Arial 10, numeração de página e seção primária que não começa em página nova
   3. Cada item sai com ✔ ou ✘, e o que o script não alcança aparece como "verificar manualmente"
 
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — verificar_docx.py: corpo (fonte, tamanho, entrelinhas, alinhamento) e margens, relatório ✔/✘ com origem; caso 7 do briefing
+- [ ] 03-02-PLAN.md — citações longas, numeração de página e títulos (seção primária em página nova); 'verificar manualmente' para o que depende da paginação
+- [ ] 03-03-PLAN.md — fluxo Checar documento no SKILL.md, checar_skill.py estendido, 4 casos em tests/checar e aprovação da autora
 
 ### Phase 4: Validação
 
@@ -116,5 +122,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
 | 2. Formatar elementos | 4/4 | Complete   | 2026-10-09 |
-| 3. Checar documento | 0/TBD | Not started | - |
+| 3. Checar documento | 0/3 | Planned | - |
 | 4. Validação | 0/TBD | Not started | - |
