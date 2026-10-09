@@ -24,6 +24,37 @@ CITACAO = (
     "espacamento simples, como pede a regra de citacao direta com mais de tres linhas, de "
     "modo que o verificador a reconheca como candidata a citacao longa. (Teste, 2020, p. 10)."
 )
+TRECHO = (
+    "“Este trecho entre aspas e inteiramente ficticio e existe somente para testar a "
+    "estimativa de citacao longa sem recuo. Ele precisa passar de duzentos e vinte e cinco "
+    "caracteres para ser listado, e por isso repete uma frase de teste sem qualquer valor "
+    "juridico, como se fosse uma transcricao direta de uma obra que nao existe.”"
+)
+CITACAO_ASPAS = (
+    "“Esta citacao longa e inteiramente ficticia, com recuo menor, fonte maior e aspas, "
+    "e serve para testar os defeitos de citacao longa que o verificador deve apontar no "
+    "documento de teste.” (Teste, 2020, p. 10)."
+)
+
+
+def _campo_pagina(paragrafo, fonte, tamanho):
+    fld = OxmlElement("w:fldSimple")
+    fld.set(qn("w:instr"), "PAGE")
+    r = OxmlElement("w:r")
+    rpr = OxmlElement("w:rPr")
+    rf = OxmlElement("w:rFonts")
+    for a in ("w:ascii", "w:hAnsi"):
+        rf.set(qn(a), fonte)
+    sz = OxmlElement("w:sz")
+    sz.set(qn("w:val"), str(int(tamanho * 2)))
+    rpr.append(rf)
+    rpr.append(sz)
+    t = OxmlElement("w:t")
+    t.text = "1"
+    r.append(rpr)
+    r.append(t)
+    fld.append(r)
+    paragrafo._p.append(fld)
 
 
 def _fonte_run(run, fonte, tamanho, negrito=None):
@@ -52,7 +83,7 @@ def _par(doc, texto, fonte, tamanho=12, alin=None, negrito=None, recuo_cm=None,
     return p
 
 
-def gerar_base(caminho, margem_cm=None, fonte="Arial"):
+def gerar_base(caminho, margem_cm=None, fonte="Arial", caso02=False):
     doc = Document()
     normal = doc.styles["Normal"]
     normal.font.name = fonte
@@ -69,25 +100,14 @@ def gerar_base(caminho, margem_cm=None, fonte="Arial"):
         else:
             s.top_margin = s.left_margin = Cm(margem_cm)
             s.right_margin = s.bottom_margin = Cm(margem_cm)
-        hp = s.header.paragraphs[0]
-        hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        fld = OxmlElement("w:fldSimple")
-        fld.set(qn("w:instr"), "PAGE")
-        r = OxmlElement("w:r")
-        rpr = OxmlElement("w:rPr")
-        rf = OxmlElement("w:rFonts")
-        for a in ("w:ascii", "w:hAnsi"):
-            rf.set(qn(a), "Arial")
-        sz = OxmlElement("w:sz")
-        sz.set(qn("w:val"), "20")
-        rpr.append(rf)
-        rpr.append(sz)
-        t = OxmlElement("w:t")
-        t.text = "1"
-        r.append(rpr)
-        r.append(t)
-        fld.append(r)
-        hp._p.append(fld)
+        if caso02:
+            fp = s.footer.paragraphs[0]
+            fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            _campo_pagina(fp, "Arial", 12)
+        else:
+            hp = s.header.paragraphs[0]
+            hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            _campo_pagina(hp, "Arial", 10)
 
     C = WD_ALIGN_PARAGRAPH.CENTER
     L = WD_ALIGN_PARAGRAPH.LEFT
@@ -98,12 +118,20 @@ def gerar_base(caminho, margem_cm=None, fonte="Arial"):
     _par(doc, "1 INTRODUÇÃO", fonte, alin=L, negrito=True, quebra=True)
     for _ in range(3):
         _par(doc, CORPO, fonte)
-    _par(doc, "1.1 SEÇÃO SECUNDÁRIA DE TESTE", fonte, alin=L, negrito=False)
-    _par(doc, "1.1.1 Seção terciária de teste", fonte, alin=L, negrito=True)
-    _par(doc, CORPO, fonte)
-    _par(doc, CITACAO, "Arial", tamanho=10, alin=WD_ALIGN_PARAGRAPH.JUSTIFY,
-         recuo_cm=4, simples=True)
-    _par(doc, "2 SEGUNDA SEÇÃO DE TESTE", fonte, alin=L, negrito=True, quebra=True)
+    if caso02:
+        _par(doc, "1.1 Seção secundária de teste", fonte, alin=L, negrito=False)
+        _par(doc, "1.1.2 Seção terciária de teste", fonte, alin=L, negrito=True)
+        _par(doc, CORPO, fonte)
+        _par(doc, CORPO + " " + TRECHO, fonte)
+        _par(doc, CITACAO_ASPAS, "Arial", tamanho=12, alin=WD_ALIGN_PARAGRAPH.JUSTIFY,
+             recuo_cm=2)
+    else:
+        _par(doc, "1.1 SEÇÃO SECUNDÁRIA DE TESTE", fonte, alin=L, negrito=False)
+        _par(doc, "1.1.1 Seção terciária de teste", fonte, alin=L, negrito=True)
+        _par(doc, CORPO, fonte)
+        _par(doc, CITACAO, "Arial", tamanho=10, alin=WD_ALIGN_PARAGRAPH.JUSTIFY,
+             recuo_cm=4, simples=True)
+    _par(doc, "2 SEGUNDA SEÇÃO DE TESTE", fonte, alin=L, negrito=True, quebra=not caso02)
     _par(doc, CORPO, fonte)
     _par(doc, "REFERÊNCIAS", fonte, alin=C, negrito=True, quebra=True)
     _par(doc, "TESTE, Maria de. Obra de teste. Vila Velha: Editora de Teste, 2020.",
@@ -115,6 +143,10 @@ def gerar_caso01(caminho):
     gerar_base(caminho, margem_cm=2.5, fonte="Times New Roman")
 
 
+def gerar_caso02(caminho):
+    gerar_base(caminho, caso02=True)
+
+
 def gerar_caso03(caminho):
     gerar_base(caminho)
 
@@ -122,6 +154,7 @@ def gerar_caso03(caminho):
 def main():
     aqui = Path(__file__).resolve().parent
     gerar_caso01(aqui / "caso-01-margem-fonte.docx")
+    gerar_caso02(aqui / "caso-02-citacao-titulos.docx")
     gerar_caso03(aqui / "caso-03-conforme.docx")
     print("fixtures gravadas em", aqui)
 
