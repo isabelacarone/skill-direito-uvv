@@ -30,9 +30,9 @@
 
 ### Checar documento
 
-- [ ] **DOC-01**: `scripts/verificar_docx.py` relata fonte e tamanho, margens, entrelinhas e alinhamento de um .docx
+- [x] **DOC-01**: `scripts/verificar_docx.py` relata fonte e tamanho, margens, entrelinhas e alinhamento de um .docx
 - [ ] **DOC-02**: O script relata recuo e fonte de citações longas, numeração de página e hierarquia de títulos (seção primária em página nova)
-- [ ] **DOC-03**: O relatório marca ✔/✘ por item e lista o que precisa de verificação manual
+- [x] **DOC-03**: O relatório marca ✔/✘ por item e lista o que precisa de verificação manual
 
 ### Qualidade
 
@@ -72,9 +72,9 @@
 | FMT-04 | Phase 2 | Complete |
 | FMT-05 | Phase 2 | Complete |
 | FMT-06 | Phase 2 | Complete |
-| DOC-01 | Phase 3 | Pending |
+| DOC-01 | Phase 3 | Complete |
 | DOC-02 | Phase 3 | Pending |
-| DOC-03 | Phase 3 | Pending |
+| DOC-03 | Phase 3 | Complete |
 | QA-01 | Phase 4 | Pending |
 | QA-02 | Phase 1 | Complete |
 

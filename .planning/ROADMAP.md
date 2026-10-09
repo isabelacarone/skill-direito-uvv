@@ -94,12 +94,12 @@ Plans:
   2. O relatório aponta citações longas sem recuo de 4 cm ou fora de Arial 10, numeração de página e seção primária que não começa em página nova
   3. Cada item sai com ✔ ou ✘, e o que o script não alcança aparece como "verificar manualmente"
 
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — verificar_docx.py: corpo (fonte, tamanho, entrelinhas, alinhamento) e margens, relatório ✔/✘ com origem; caso 7 do briefing
+- [x] 03-01-PLAN.md — verificar_docx.py: corpo (fonte, tamanho, entrelinhas, alinhamento) e margens, relatório ✔/✘ com origem; caso 7 do briefing
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -131,5 +131,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
 | 2. Formatar elementos | 4/4 | Complete   | 2026-10-09 |
-| 3. Checar documento | 0/3 | Planned | - |
+| 3. Checar documento | 1/3 | In Progress|  |
 | 4. Validação | 0/TBD | Not started | - |
