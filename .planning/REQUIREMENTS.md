@@ -9,8 +9,8 @@
 
 - [ ] **BASE-01**: A skill existe em `.claude/skills/abnt-uvv-direito/` com SKILL.md curto e frontmatter (name, description) que dispara em pedidos de revisão/formatação de TCC e Projeto de Pesquisa de Direito da UVV
 - [x] **BASE-02**: `references/` contém as regras do manual (formatação gráfica, pré-textuais, citações, tabelas e ilustrações, referências) com item e página citáveis
-- [ ] **BASE-03**: `references/regras-curso-direito.md` contém as regras do Projeto de Pesquisa (parágrafo de 3 frases, citação longa até 10 linhas, máximo 10% de citação direta, tempo presente impessoal, mínimos por seção)
-- [ ] **BASE-04**: A precedência Manual → Projeto → Estudo Dirigido → NBR está declarada, com a exceção de 12 pt entre referências e o padrão de link sem `< >` e mês abreviado
+- [x] **BASE-03**: `references/regras-curso-direito.md` contém as regras do Projeto de Pesquisa (parágrafo de 3 frases, citação longa até 10 linhas, máximo 10% de citação direta, tempo presente impessoal, mínimos por seção)
+- [x] **BASE-04**: A precedência Manual → Projeto → Estudo Dirigido → NBR está declarada, com a exceção de 12 pt entre referências e o padrão de link sem `< >` e mês abreviado
 
 ### Revisar
 
@@ -60,8 +60,8 @@
 |-------------|-------|--------|
 | BASE-01 | Phase 1 | Pending |
 | BASE-02 | Phase 1 | Complete |
-| BASE-03 | Phase 1 | Pending |
-| BASE-04 | Phase 1 | Pending |
+| BASE-03 | Phase 1 | Complete |
+| BASE-04 | Phase 1 | Complete |
 | REV-01 | Phase 1 | Pending |
 | REV-02 | Phase 1 | Pending |
 | REV-03 | Phase 1 | Complete |
