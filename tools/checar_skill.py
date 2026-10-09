@@ -26,7 +26,7 @@ OBRIGATORIAS = [
     "[Inserir autor, ano, p.]", "não consta no manual UVV",
     "Regra do curso", "NBR geral", "12 pt", "sem `< >`",
     "https://repositorio.uvv.br/handle/123456789/88",
-    "Origem da regra",
+    "Origem da regra", "## Fluxo do modo Formatar", "Regra aplicada:",
 ]
 SECOES_CASO = ["## Entrada", "## Esperado", "## Não pode"]
 CITACAO = re.compile(r"Manual (\d+(?:\.\d+)*), p\. (\d+)(?:[–-](\d+))?")
@@ -77,6 +77,45 @@ def checar(skill=SKILL, casos=CASOS, mapa=None, casos_formatar=CASOS_FORMATAR):
         for s in SECOES_CASO:
             if s not in t:
                 erros.append(f"{a.name}: falta '{s}'")
+    for s in PROIBIDAS_SKILL:
+        if s in texto:
+            erros.append(f"SKILL.md contem texto proibido: {s}")
+    # modo Formatar: casos fixos, origem copiada de references/, link e data de acesso
+    linhas_ref = []
+    if ref.exists():
+        for a in sorted(ref.glob("*.md")):
+            linhas_ref += a.read_text(encoding="utf-8").splitlines()
+            for n, l in enumerate(a.read_text(encoding="utf-8").splitlines(), 1):
+                erros += _erros_acesso(l, f"references/{a.name}:{n}")
+    arqs_f = sorted(Path(casos_formatar).glob("caso-*.md")) if Path(casos_formatar).exists() else []
+    if len(arqs_f) < MIN_FORMATAR:
+        erros.append(f"apenas {len(arqs_f)} casos em tests/formatar (min {MIN_FORMATAR})")
+    for a in arqs_f:
+        t = a.read_text(encoding="utf-8")
+        for s in SECOES_CASO:
+            if s not in t:
+                erros.append(f"{a.name}: falta '{s}'")
+        for m in CITACAO.finditer(t):
+            if not any(m.group(0) in l for l in linhas_ref):
+                erros.append(f"{a.name}: origem '{m.group(0)}' nao aparece em nenhuma linha de references/")
+        esperado = re.search(r"^## Esperado\n(.*?)(?=^## |\Z)", t, re.S | re.M)
+        corpo = esperado.group(1) if esperado else ""
+        if "<http" in corpo:
+            erros.append(f"{a.name}: link com < > em Esperado")
+        for l in corpo.splitlines():
+            erros += _erros_acesso(l, a.name)
+    return erros
+
+
+ACESSO = re.compile(r"Acesso em: (?=\d)")
+ACESSO_OK = re.compile(r"Acesso em: \d{1,2} (jan\.|fev\.|mar\.|abr\.|maio|jun\.|jul\.|ago\.|set\.|out\.|nov\.|dez\.) \d{4}")
+
+
+def _erros_acesso(linha, onde):
+    erros = []
+    for m in ACESSO.finditer(linha):
+        if not ACESSO_OK.match(linha, m.start()):
+            erros.append(f"{onde}: data de acesso fora do padrao (mes abreviado)")
     return erros
 
 
