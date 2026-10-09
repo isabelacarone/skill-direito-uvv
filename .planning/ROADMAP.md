@@ -12,7 +12,7 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 - [x] **Phase 1: Revisar trechos** - Skill instalada e revisando citações, estilo e fundamentação com origem da regra (completed 2026-10-09)
-- [ ] **Phase 2: Formatar elementos** - Geração de citações, referências (inclusive legislação e jurisprudência), legendas, capa, folha de rosto e sumário
+- [x] **Phase 2: Formatar elementos** - Geração de citações, referências (inclusive legislação e jurisprudência), legendas, capa, folha de rosto e sumário (completed 2026-10-09)
 - [ ] **Phase 3: Checar documento** - Script que relata a formatação gráfica de um .docx
 - [ ] **Phase 4: Validação** - Os 8 casos de teste do briefing rodam e passam
 
@@ -61,7 +61,7 @@ Plans:
   3. Capa, folha de rosto e sumário saem no modelo certo para Projeto de Pesquisa e para TCC final
   4. Quando falta ano, editora, página ou data de acesso, a skill pede o dado em vez de inventar
 
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 1**
@@ -78,7 +78,7 @@ Plans:
 
 **Wave 4**
 
-- [ ] 02-04-PLAN.md — Capa, folha de rosto e sumário (Projeto e TCC final) e aprovação dos 9 casos pela autora
+- [x] 02-04-PLAN.md — Capa, folha de rosto e sumário (Projeto e TCC final) e aprovação dos 9 casos pela autora
 
 ### Phase 3: Checar documento
 
@@ -115,6 +115,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
-| 2. Formatar elementos | 3/4 | In Progress|  |
+| 2. Formatar elementos | 4/4 | Complete   | 2026-10-09 |
 | 3. Checar documento | 0/TBD | Not started | - |
 | 4. Validação | 0/TBD | Not started | - |
