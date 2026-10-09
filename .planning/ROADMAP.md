@@ -31,12 +31,12 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
   3. Uma citação direta longa mal formatada, um *apud* invertido e uma afirmação sem fonte são todos apontados, esta última com `[Inserir autor, ano, p.]`
   4. Um trecho sem seção informada leva a skill a perguntar a seção, e uma regra fora dos documentos gera "não consta no manual" sem página inventada
 
-**Plans:** 5 plans
+**Plans:** 1/5 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Ferramentas: mapa item → página impressa do manual, verificador de references/ e extrator dos .docx
+- [x] 01-01-PLAN.md — Ferramentas: mapa item → página impressa do manual, verificador de references/ e extrator dos .docx
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -97,7 +97,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Revisar trechos | 0/5 | Not started | - |
+| 1. Revisar trechos | 1/5 | In Progress|  |
 | 2. Formatar elementos | 0/TBD | Not started | - |
 | 3. Checar documento | 0/TBD | Not started | - |
 | 4. Validação | 0/TBD | Not started | - |
