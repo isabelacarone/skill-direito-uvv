@@ -27,7 +27,14 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
   2. Cada inconformidade na tabela traz trecho, origem da regra (item e página do manual, "Regra do curso" ou "NBR geral"), problema e correção reescrita
   3. Uma citação direta longa mal formatada, um *apud* invertido e uma afirmação sem fonte são todos apontados, esta última com `[Inserir autor, ano, p.]`
   4. Um trecho sem seção informada leva a skill a perguntar a seção, e uma regra fora dos documentos gera "não consta no manual" sem página inventada
-**Plans**: TBD
+**Plans:** 5 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Ferramentas: mapa item → página impressa do manual, verificador de references/ e extrator dos .docx
+- [ ] 01-02-PLAN.md — references/formatacao-grafica.md e pre-textuais.md (manual 2.1, 2.2, cap. 3)
+- [ ] 01-03-PLAN.md — references/citacoes.md e tabelas-ilustracoes.md (manual caps. 4 e 5, 2.3.2)
+- [ ] 01-04-PLAN.md — references/referencias-direito.md e regras-curso-direito.md (cap. 6, Projeto, Estudo Dirigido)
+- [ ] 01-05-PLAN.md — SKILL.md do modo Revisar, verificador da skill, 6 casos e aprovação da autora
 
 ### Phase 2: Formatar elementos
 **Goal**: A skill gera no padrão UVV os elementos que a autora pede, sem preencher dados que faltam
@@ -69,7 +76,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Revisar trechos | 0/TBD | Not started | - |
+| 1. Revisar trechos | 0/5 | Not started | - |
 | 2. Formatar elementos | 0/TBD | Not started | - |
 | 3. Checar documento | 0/TBD | Not started | - |
 | 4. Validação | 0/TBD | Not started | - |
