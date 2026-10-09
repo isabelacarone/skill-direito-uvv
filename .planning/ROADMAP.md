@@ -61,7 +61,24 @@ Plans:
   3. Capa, folha de rosto e sumário saem no modelo certo para Projeto de Pesquisa e para TCC final
   4. Quando falta ano, editora, página ou data de acesso, a skill pede o dado em vez de inventar
 
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+**Wave 1**
+
+- [ ] 02-01-PLAN.md — Fluxo do modo Formatar no SKILL.md, verificador estendido a tests/formatar e modelos de citação (direta curta, longa, indireta, apud)
+
+**Wave 2**
+
+- [ ] 02-02-PLAN.md — Modelos de referência (livro, capítulo, artigo, trabalho acadêmico, site, evento, entrevista) e montagem da lista
+
+**Wave 3**
+
+- [ ] 02-03-PLAN.md — Modelos de legislação, jurisprudência, atos normativos e legendas; caso 3 do briefing
+
+**Wave 4**
+
+- [ ] 02-04-PLAN.md — Capa, folha de rosto e sumário (Projeto e TCC final) e aprovação dos 9 casos pela autora
 
 ### Phase 3: Checar documento
 
@@ -98,6 +115,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
-| 2. Formatar elementos | 0/TBD | Not started | - |
+| 2. Formatar elementos | 0/4 | Planned | - |
 | 3. Checar documento | 0/TBD | Not started | - |
 | 4. Validação | 0/TBD | Not started | - |
