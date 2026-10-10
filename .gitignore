@@ -1,5 +1,4 @@
 __pycache__/
 
-# Material-fonte local da skill: nao versionar (PDF do manual, .docx do curso, briefing)
-docs/
+# Briefing local da skill: nao versionar
 PROMPT-SKILL-ABNT-UVV.md
