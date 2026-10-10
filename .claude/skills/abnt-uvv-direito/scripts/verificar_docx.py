@@ -13,6 +13,7 @@ from pathlib import Path
 
 from docx import Document
 from docx.oxml.ns import qn
+from docx.text.run import Run
 
 REFERENCES = Path(__file__).resolve().parent.parent / "references"
 LIMITE_BYTES = 50 * 1024 * 1024
@@ -39,6 +40,14 @@ LIMIARES = {
                "texto": ["superior e esquerda 3 cm", "direita e inferior 2 cm"]},
     "CIT-06": {"recuo": 4.0, "fonte": "Arial", "tamanho": 10.0, "entrelinhas": 1.0,
                "texto": ["4 cm", "Arial 10", "(1,0)"]},
+    "CIT-07": {"texto": ["10 linhas"]},
+    "GRA-11": {"texto": ["folha de rosto"]},
+    "GRA-12": {"texto": ["canto superior direito", "algarismos arábicos"]},
+    "GRA-13": {"fonte": "Arial", "tamanho": 10.0, "texto": ["Arial 10"]},
+    "GRA-15": {"texto": ["consecutivamente"]},
+    "GRA-16": {"texto": ["página nova", "negrito", "caixa alta", "esquerda"]},
+    "GRA-18": {"texto": ["(maiúsculas e negrito)", "(maiúsculas)", "(negrito)", "(normal)",
+                         "(itálico)"]},
 }
 
 
@@ -102,7 +111,10 @@ def _cadeia_estilos(estilo):
 
 def _doc_defaults(par, tipo):
     """tipo: 'rPr' ou 'pPr'. Devolve o elemento dentro de docDefaults ou None."""
-    estilos = par.part.styles.element
+    parte = par.part
+    if not hasattr(parte, "styles"):
+        parte = parte._document_part
+    estilos = parte.styles.element
     dd = estilos.find(qn("w:docDefaults"))
     if dd is None:
         return None
@@ -454,11 +466,416 @@ def _item_margens(doc):
             "regras": regras, "detalhe": f"{len(doc.sections)} seção(ões) conferida(s)"}
 
 
+# ---------------------------------------------------------------- citacao longa (P-26)
+
+ABRE_ASPAS = ('"', "“", "«")
+FECHA_ASPAS = ('"', "”", "»")
+RE_CHAMADA_FINAL = re.compile(r"\s*\([^()]*\)\s*\.?\s*$")
+RE_TRECHO_ASPAS = re.compile(r'[“"«]([^”"»]{226,})[”"»]')
+
+
+def _manual(chave, nome, rids, detalhe):
+    return {"chave": chave, "item": nome, "resultado": "verificar manualmente",
+            "regras": [regra(r) for r in rids], "detalhe": detalhe}
+
+
+def _tem_aspas(texto):
+    t = texto.strip()
+    if t.startswith(ABRE_ASPAS):
+        return True
+    m = RE_CHAMADA_FINAL.search(t)
+    antes = (t[:m.start()] if m else t).rstrip().rstrip(".").rstrip()
+    return antes.endswith(FECHA_ASPAS)
+
+
+def itens_citacao(doc, partes):
+    pars = doc.paragraphs
+    lim = LIMIARES["CIT-06"]
+    cands = sorted(partes["citacoes"])
+    itens = []
+    if not cands:
+        itens.append(_manual("citacao_longa", "Citação longa (CIT-06)", ["CIT-06"],
+                             "nenhuma citação longa identificada por recuo, fonte ou estilo"))
+    else:
+        r_falhas, f_falhas, f_nr, e_falhas, a_falhas = [], [], [], [], []
+        for i in cands:
+            p = pars[i]
+            recuo = recuo_esquerdo_efetivo(p)
+            if abs(recuo - lim["recuo"]) > TOL_CM:
+                r_falhas.append((i, p, f"recuo {fmt(recuo)} cm"))
+            fontes, tams = [], []
+            for r in p.runs:
+                if r.text.strip():
+                    fontes.append(fonte_efetiva(r, p))
+                    tams.append(tamanho_efetivo(r, p))
+            ruim = [f"{f} {fmt(t)} pt" for f, t in zip(fontes, tams)
+                    if (f is not None and f.lower() != lim["fonte"].lower())
+                    or (t is not None and abs(t - lim["tamanho"]) > 0.01)]
+            if ruim:
+                f_falhas.append((i, p, ruim[0]))
+            elif any(f is None for f in fontes) or any(t is None for t in tams):
+                f_nr.append(i)
+            tipo, v = entrelinhas_efetiva(p)
+            if tipo == "auto":
+                if abs(v - lim["entrelinhas"]) > TOL_ENTRELINHAS:
+                    e_falhas.append((i, p, f"entrelinhas {fmt(v)}"))
+            else:
+                rot = "exata" if tipo == "exact" else "mínima"
+                e_falhas.append((i, p, f"entrelinhas {rot} de {fmt(v)} pt"))
+            if _tem_aspas(p.text):
+                a_falhas.append((i, p, "com aspas"))
+        n = len(cands)
+        itens += [
+            _item("citacao_recuo", "Recuo da citação longa (4 cm)", ["CIT-06"],
+                  r_falhas, n, []),
+            _item("citacao_fonte", "Fonte da citação longa (Arial 10)", ["CIT-06"],
+                  f_falhas, n, f_nr),
+            _item("citacao_entrelinhas", "Entrelinhas da citação longa (simples)", ["CIT-06"],
+                  e_falhas, n, []),
+            _item("citacao_aspas", "Citação longa sem aspas", ["CIT-06"],
+                  a_falhas, n, []),
+        ]
+    itens.append(_manual(
+        "citacao_extensao", "Extensão da citação (até 10 linhas)", ["CIT-07"],
+        "o limite de 10 linhas depende da paginação do Word: conferir à mão"))
+    excluidos = set(partes["titulos"]) | partes["legendas"] | partes["citacoes"]
+    achados = [i for i in partes["corpo"]
+               if i not in excluidos and RE_TRECHO_ASPAS.search(pars[i].text)]
+    if achados:
+        lista = ", ".join(f"§{i}" for i in achados[:3])
+        det = (f"parágrafos do corpo com trecho entre aspas de mais de 225 caracteres: {lista}. "
+               "É estimativa de apoio do SKILL.md, não regra do manual; confirmar se é "
+               "citação direta longa sem recuo")
+    else:
+        det = ("citação longa sem recuo e sem aspas não é identificável pelo arquivo; "
+               "nenhum trecho entre aspas com mais de 225 caracteres no corpo "
+               "(estimativa de apoio do SKILL.md, não regra do manual)")
+    itens.append(_manual("citacao_sem_recuo", "Citação longa sem recuo", ["CIT-06"], det))
+    return itens
+
+
+# ---------------------------------------------------------------- secoes
+
+def _body_sectpr(doc):
+    return doc.element.body.find(qn("w:sectPr"))
+
+
+def _sectpr_que_encerra(doc, indice):
+    """w:sectPr que ENCERRA a secao do paragrafo: o primeiro w:pPr/w:sectPr de um
+    paragrafo igual ou posterior; senao, o do w:body."""
+    pars = doc.paragraphs
+    for p in pars[indice:]:
+        ppr = p._p.pPr
+        if ppr is not None and ppr.find(qn("w:sectPr")) is not None:
+            return ppr.find(qn("w:sectPr"))
+    return _body_sectpr(doc)
+
+
+def tipo_secao_do_paragrafo(doc, indice):
+    """Como comeca a secao do paragrafo (w:type do sectPr que a encerra)."""
+    sp = _sectpr_que_encerra(doc, indice)
+    if sp is None:
+        return "nextPage"
+    t = sp.find(qn("w:type"))
+    v = t.get(qn("w:val")) if t is not None else None
+    return v or "nextPage"
+
+
+# ---------------------------------------------------------------- numeracao (P-27)
+
+RE_CAMPO_PAGE = re.compile(r"\bPAGE\b")
+
+
+def _campos_do_paragrafo(par, local):
+    achados = []
+    viu_tab = False
+    cur = None
+    for ch in par._p.iterchildren():
+        if ch.tag == qn("w:fldSimple"):
+            if RE_CAMPO_PAGE.search(ch.get(qn("w:instr")) or ""):
+                runs = [Run(r, par) for r in ch.findall(qn("w:r"))]
+                achados.append({"local": local, "par": par, "runs": runs, "tab_antes": viu_tab})
+        elif ch.tag == qn("w:r"):
+            fc = ch.find(qn("w:fldChar"))
+            if fc is not None:
+                tipo = fc.get(qn("w:fldCharType"))
+                if tipo == "begin":
+                    cur = {"instr": "", "instr_runs": [], "res": [], "fase": "instr",
+                           "tab": viu_tab}
+                elif tipo == "separate" and cur is not None:
+                    cur["fase"] = "res"
+                elif tipo == "end" and cur is not None:
+                    if RE_CAMPO_PAGE.search(cur["instr"]):
+                        els = cur["res"] or cur["instr_runs"]
+                        achados.append({"local": local, "par": par,
+                                        "runs": [Run(r, par) for r in els],
+                                        "tab_antes": cur["tab"]})
+                    cur = None
+            elif cur is not None:
+                if cur["fase"] == "instr" and ch.find(qn("w:instrText")) is not None:
+                    cur["instr"] += ch.find(qn("w:instrText")).text or ""
+                    cur["instr_runs"].append(ch)
+                elif cur["fase"] == "res" and ch.find(qn("w:t")) is not None:
+                    cur["res"].append(ch)
+            if ch.find(qn("w:tab")) is not None:
+                viu_tab = True
+    return achados
+
+
+def campos_pagina(doc):
+    """Ocorrencias do campo PAGE em cabecalhos e rodapes de todas as secoes."""
+    pares_aos = doc.settings.element.find(qn("w:evenAndOddHeaders")) is not None
+    achados = []
+    for s in doc.sections:
+        for local, partes_ in (
+                ("cabeçalho", [(s.header, True), (s.first_page_header, s.different_first_page_header_footer),
+                               (s.even_page_header, pares_aos)]),
+                ("rodapé", [(s.footer, True), (s.first_page_footer, s.different_first_page_header_footer),
+                            (s.even_page_footer, pares_aos)])):
+            for hf, usado in partes_:
+                if not usado or hf.is_linked_to_previous:
+                    continue
+                for par in hf.paragraphs:
+                    achados += _campos_do_paragrafo(par, local)
+    return achados
+
+
+def _alinhamento_explicito(par):
+    for ppr in _ppr_da_cadeia(par):
+        if ppr is None:
+            continue
+        jc = ppr.find(qn("w:jc"))
+        if jc is not None and jc.get(qn("w:val")):
+            return jc.get(qn("w:val"))
+    return None
+
+
+def itens_numeracao(doc, partes):
+    campos = campos_pagina(doc)
+    cab = [c for c in campos if c["local"] == "cabeçalho"]
+    itens = []
+    if cab:
+        itens.append({"chave": "numeracao_posicao", "item": "Numeração de página no cabeçalho",
+                      "resultado": "✔", "regras": [regra("GRA-12")],
+                      "detalhe": f"campo de página em {len(cab)} cabeçalho(s)"})
+    else:
+        det = ("campo de página no rodapé; a regra pede o cabeçalho" if campos
+               else "campo de página ausente (nenhum cabeçalho ou rodapé numera as folhas)")
+        itens.append({"chave": "numeracao_posicao", "item": "Numeração de página no cabeçalho",
+                      "resultado": "✘", "regras": [regra("GRA-12")], "detalhe": det})
+    if campos:
+        usados = cab or campos
+        nomes = {"left": "à esquerda", "start": "à esquerda", "center": "centralizado",
+                 "both": "justificado"}
+        ruins, manual = [], False
+        for c in usados:
+            al = _alinhamento_explicito(c["par"])
+            if al in ("right", "end"):
+                continue
+            if al is None and c["tab_antes"]:
+                manual = True
+            else:
+                ruins.append(nomes.get(al, al or "à esquerda"))
+        if ruins:
+            itens.append({"chave": "numeracao_alinhamento", "item": "Número alinhado à direita",
+                          "resultado": "✘", "regras": [regra("GRA-12")],
+                          "detalhe": f"número {ruins[0]} (esperado: canto superior direito)"})
+        elif manual:
+            itens.append(_manual("numeracao_alinhamento", "Número alinhado à direita",
+                                 ["GRA-12"], "alinhamento por tabulação: conferir à mão"))
+        else:
+            itens.append({"chave": "numeracao_alinhamento", "item": "Número alinhado à direita",
+                          "resultado": "✔", "regras": [regra("GRA-12")],
+                          "detalhe": f"{len(usados)} campo(s) conferido(s)"})
+        lim = LIMIARES["GRA-13"]
+        ruins, nr = [], False
+        for c in usados:
+            for r in c["runs"]:
+                f, t = fonte_efetiva(r, c["par"]), tamanho_efetivo(r, c["par"])
+                if f is None or t is None:
+                    nr = True
+                elif f.lower() != lim["fonte"].lower() or abs(t - lim["tamanho"]) > 0.01:
+                    ruins.append(f"{f} {fmt(t)} pt")
+        if ruins:
+            itens.append({"chave": "numeracao_fonte", "item": "Fonte do número (Arial 10)",
+                          "resultado": "✘", "regras": [regra("GRA-13")],
+                          "detalhe": f"número em {ruins[0]} (esperado: Arial 10 pt)"})
+        elif nr:
+            itens.append(_manual("numeracao_fonte", "Fonte do número (Arial 10)", ["GRA-13"],
+                                 "fonte ou tamanho do número não resolvido no arquivo"))
+        else:
+            itens.append({"chave": "numeracao_fonte", "item": "Fonte do número (Arial 10)",
+                          "resultado": "✔", "regras": [regra("GRA-13")],
+                          "detalhe": "Arial 10 pt"})
+        ini = partes["corpo"][0] if partes["corpo"] else 0
+        sp = _sectpr_que_encerra(doc, ini)
+        pg = sp.find(qn("w:pgNumType")) if sp is not None else None
+        formato = pg.get(qn("w:fmt")) if pg is not None else None
+        if formato in (None, "decimal"):
+            itens.append({"chave": "numeracao_formato", "item": "Algarismos arábicos",
+                          "resultado": "✔", "regras": [regra("GRA-12")],
+                          "detalhe": "formato decimal na seção do corpo"})
+        else:
+            itens.append({"chave": "numeracao_formato", "item": "Algarismos arábicos",
+                          "resultado": "✘", "regras": [regra("GRA-12")],
+                          "detalhe": f"formato '{formato}' na seção do corpo (esperado: decimal)"})
+    itens.append(_manual(
+        "numeracao_inicio", "Início da numeração (primeira folha de texto)",
+        ["GRA-11", "GRA-12"],
+        "a contagem parte da folha de rosto e o número aparece a partir da primeira folha "
+        "de texto; em que folha isso ocorre depende de seções e da paginação: conferir à mão"))
+    return itens
+
+
+# ---------------------------------------------------------------- titulos (P-28)
+
+def _flag_efetivo(run, par, tag):
+    for rpr in _rprs_da_cadeia(run, par):
+        if rpr is None:
+            continue
+        el = rpr.find(qn(f"w:{tag}"))
+        if el is not None:
+            return el.get(qn("w:val")) not in ("0", "false", "off")
+    return False
+
+
+def _runs_com_texto(par):
+    return [r for r in par.runs if r.text.strip()]
+
+
+def _todos(par, tag):
+    runs = _runs_com_texto(par)
+    return bool(runs) and all(_flag_efetivo(r, par, tag) for r in runs)
+
+
+def _caixa_alta(par):
+    letras = [c for c in par.text if c.isalpha()]
+    return bool(letras) and (all(c.isupper() for c in letras) or _todos(par, "caps"))
+
+
+def _page_break_before(par):
+    for ppr in _ppr_da_cadeia(par):
+        if ppr is None:
+            continue
+        el = ppr.find(qn("w:pageBreakBefore"))
+        if el is not None:
+            return el.get(qn("w:val")) not in ("0", "false", "off")
+    return False
+
+
+def tem_quebra_antes(doc, indice):
+    pars = doc.paragraphs
+    if indice == 0 or _page_break_before(pars[indice]):
+        return True
+    j = next((k for k in range(indice - 1, -1, -1) if pars[k].text.strip()), -1)
+    if j == -1:
+        return True
+    for k in range(j, indice):
+        for br in pars[k]._p.iter(qn("w:br")):
+            if br.get(qn("w:type")) == "page":
+                return True
+    ultimo_sect = next((k for k in range(indice - 1, -1, -1)
+                        if pars[k]._p.pPr is not None
+                        and pars[k]._p.pPr.find(qn("w:sectPr")) is not None), None)
+    if ultimo_sect is not None and ultimo_sect >= j:
+        return tipo_secao_do_paragrafo(doc, indice) in ("nextPage", "oddPage", "evenPage")
+    return False
+
+
+GRAFIA = {
+    2: ("maiúsculas sem negrito", lambda p: _caixa_alta(p) and not _todos(p, "b")),
+    3: ("negrito sem caixa alta", lambda p: _todos(p, "b") and not _caixa_alta(p)),
+    4: ("sem negrito, itálico nem caixa alta",
+        lambda p: not _todos(p, "b") and not _todos(p, "i") and not _caixa_alta(p)),
+    5: ("itálico", lambda p: _todos(p, "i")),
+}
+
+
+def itens_titulos(doc, partes):
+    pars = doc.paragraphs
+    titulos = {i: n for i, n in partes["titulos"].items() if i in set(partes["corpo"])}
+    nomes = [("titulo_pagina_nova", "Seção primária em página nova", ["GRA-16"]),
+             ("titulo_primaria_formato", "Seção primária em negrito, caixa alta e à esquerda",
+              ["GRA-16"]),
+             ("titulo_grafia_niveis", "Grafia dos títulos por nível", ["GRA-18"]),
+             ("titulo_numeracao", "Numeração consecutiva das seções", ["GRA-15"])]
+    if partes["sem_inicio"] or not titulos:
+        return [_manual(c, n, r, "nenhum título identificado no corpo do texto")
+                for c, n, r in nomes]
+    itens = []
+    prim = sorted(i for i, n in titulos.items() if n == 1)
+    sem_quebra = [i for i in prim if not tem_quebra_antes(doc, i)]
+    if sem_quebra:
+        lista = "; ".join(f"sem quebra de página antes de: {pars[i].text.strip()[:40]}"
+                          for i in sem_quebra[:3])
+        itens.append({"chave": "titulo_pagina_nova", "item": nomes[0][1], "resultado": "✘",
+                      "regras": [regra("GRA-16")],
+                      "detalhe": f"{len(sem_quebra)} de {len(prim)} seções primárias: {lista} "
+                                 "(se o título já cai no topo por acaso, insira a quebra mesmo assim)"})
+    else:
+        itens.append({"chave": "titulo_pagina_nova", "item": nomes[0][1], "resultado": "✔",
+                      "regras": [regra("GRA-16")],
+                      "detalhe": f"{len(prim)} seções primárias conferidas"})
+    falhas = []
+    for i in prim:
+        p = pars[i]
+        if not _todos(p, "b"):
+            falhas.append((i, p, "sem negrito"))
+        elif not _caixa_alta(p):
+            falhas.append((i, p, "sem caixa alta"))
+        elif alinhamento_efetivo(p) not in ("left", "start", "both"):
+            falhas.append((i, p, f"alinhamento {alinhamento_efetivo(p)}"))
+    itens.append(_item("titulo_primaria_formato", nomes[1][1], ["GRA-16"], falhas, len(prim), []))
+    sub = sorted(i for i, n in titulos.items() if 2 <= n <= 5)
+    if not sub:
+        itens.append(_manual("titulo_grafia_niveis", nomes[2][1], ["GRA-18"],
+                             "nenhum título de nível 2 a 5 no corpo do texto"))
+    else:
+        falhas = [(i, pars[i], f"nível {titulos[i]}: esperado {GRAFIA[titulos[i]][0]}")
+                  for i in sub if not GRAFIA[titulos[i]][1](pars[i])]
+        itens.append(_item("titulo_grafia_niveis", nomes[2][1], ["GRA-18"], falhas, len(sub), []))
+    numeros = {}
+    for i in titulos:
+        m = RE_TITULO_NUM.match(pars[i].text.strip())
+        if m:
+            numeros[i] = tuple(int(x) for x in m.group(1).split("."))
+    if len(numeros) < len(titulos):
+        itens.append(_manual("titulo_numeracao", nomes[3][1], ["GRA-15"],
+                             "títulos sem número no texto (numeração automática do Word): "
+                             "conferir à mão"))
+    else:
+        saltos, contagem, vistos = [], {}, set()
+        for i in sorted(numeros):
+            nums = numeros[i]
+            pai = nums[:-1]
+            rotulo = ".".join(str(x) for x in nums)
+            if pai and pai not in vistos:
+                saltos.append(f"{rotulo} sem a seção {'.'.join(str(x) for x in pai)}")
+            else:
+                esperado = contagem.get(pai, 0) + 1
+                if nums[-1] != esperado:
+                    saltos.append(f"{rotulo} (esperado {'.'.join(str(x) for x in pai + (esperado,))})")
+            contagem[pai] = nums[-1]
+            vistos.add(nums)
+        if saltos:
+            itens.append({"chave": "titulo_numeracao", "item": nomes[3][1], "resultado": "✘",
+                          "regras": [regra("GRA-15")],
+                          "detalhe": "saltos: " + "; ".join(saltos[:3])})
+        else:
+            itens.append({"chave": "titulo_numeracao", "item": nomes[3][1], "resultado": "✔",
+                          "regras": [regra("GRA-15")],
+                          "detalhe": f"{len(numeros)} títulos numerados em sequência"})
+    return itens
+
+
 def verificar(caminho):
     doc = abrir(caminho)
     partes = partes_do_documento(doc)
     itens = _itens_texto(doc, partes)
     itens.append(_item_margens(doc))
+    itens += itens_citacao(doc, partes)
+    itens += itens_numeracao(doc, partes)
+    itens += itens_titulos(doc, partes)
     if partes["sem_inicio"]:
         itens.append({"chave": "inicio_texto", "item": "Início do texto não identificado",
                       "resultado": "verificar manualmente", "regras": [regra("GRA-12")],

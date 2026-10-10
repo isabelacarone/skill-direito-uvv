@@ -214,6 +214,7 @@ class TestDoc02(Base):
     def doc_simples(self, campo=True):
         """Capa, '1 INTRODUCAO' e corpo; cabecalho com campo PAGE (Arial 10, direita)."""
         d = Document()
+        d.styles["Normal"].font.size = Pt(12)
         d.add_paragraph("CAPA DE TESTE")
         t = d.add_paragraph("1 INTRODUÇÃO")
         t.paragraph_format.page_break_before = True
