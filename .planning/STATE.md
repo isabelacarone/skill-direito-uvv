@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 03-02-PLAN.md
-last_updated: "2026-10-10T00:20:38.229Z"
-last_activity: 2026-10-10 -- Phase 04 planning complete
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-10-10T00:54:00.292Z"
+last_activity: 2026-10-10
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 15
-  completed_plans: 12
+  completed_plans: 13
   percent: 75
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-09)
 
 **Core value:** Parecer e formatação confiáveis, com cada regra apontando a origem, sem inventar fonte, dado de obra ou página.
-**Current focus:** Phase 03 — Checar documento
+**Current focus:** Phase 04 — Validação
 
 ## Current Position
 
-Phase: 03 (Checar documento) — EXECUTING
-Plan: 3 of 3
+Phase: 04 (Validação) — EXECUTING
+Plan: 2 of 3
 Status: Ready to execute
-Last activity: 2026-10-10 -- Phase 04 planning complete
+Last activity: 2026-10-10
 
-Progress: [██████████] 100%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [██████████] 100%
 | Phase 02 P04 | 40min | 3 tasks | 4 files |
 | Phase 03 P01 | 25min | 3 tasks | 5 files |
 | Phase 03 P02 | 35min | 2 tasks | 4 files |
+| Phase 04 P01 | 25min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 02]: Modelos de pre-textuais: Projeto pelo docx do curso, TCC final pelas Figuras 1, 2 e 11; texto da regra vence divergencias
 - [Phase 03]: 03-01: origem lida de references/ em tempo de execucao; item nao resolvido vai para Verificar manualmente
 - [Phase 03]: Campo PAGE lido por regex em fldSimple/instrText; titulo_numeracao vai a Verificar manualmente se ha titulo sem numero no texto — nunca avaliar campos; numeracao automatica do Word nao e legivel
+- [Phase 04]: Casos 1 e 2 corrigidos contra CIT-19 e CIT-16; references/ intocado
 
 ### Pending Todos
 
@@ -91,5 +93,5 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-10-10T00:08:53.733Z
-Stopped at: Completed 03-02-PLAN.md
+Last session: 2026-10-10T00:54:00.269Z
+Stopped at: Completed 04-01-PLAN.md
