@@ -16,7 +16,7 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
  (completed 2026-10-09)
 
 - [x] **Phase 3: Checar documento** - Script que relata a formatação gráfica de um .docx (completed 2026-10-10)
-- [ ] **Phase 4: Validação** - Os 8 casos de teste do briefing rodam e passam
+- [x] **Phase 4: Validação** - Os 8 casos de teste do briefing rodam e passam (completed 2026-10-10)
 
 ## Phase Details
 
@@ -120,7 +120,7 @@ Plans:
   1. Os 8 casos da seção 9 do briefing estão registrados no repositório com a entrada e a saída esperada
   2. Cada caso foi executado contra a skill e passa; falhas viram correção antes de dar a skill por pronta
 
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
@@ -133,7 +133,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 04-03-PLAN.md — README curto, autora roda os 8 casos em sessão nova, falhas corrigidas e repetidas, --final verde
+- [x] 04-03-PLAN.md — README curto, autora roda os 8 casos em sessão nova, falhas corrigidas e repetidas, --final verde
 
 ## Progress
 
@@ -145,4 +145,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
 | 2. Formatar elementos | 4/4 | Complete   | 2026-10-09 |
 | 3. Checar documento | 3/3 | Complete   | 2026-10-10 |
-| 4. Validação | 2/3 | In Progress|  |
+| 4. Validação | 3/3 | Complete   | 2026-10-10 |
