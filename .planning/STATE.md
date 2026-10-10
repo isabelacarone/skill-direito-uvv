@@ -96,6 +96,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 261009-up0 | Corrigir ambiguidades da skill achadas na pré-rodada dos 8 casos | 2026-10-09 | 1ac4720 | [261009-up0-corrigir-ambiguidades-da-skill-achadas-n](./quick/261009-up0-corrigir-ambiguidades-da-skill-achadas-n/) |
+| 261009-vi8 | Ignorar docs/ e o briefing no .gitignore | 2026-10-09 | 3786705 | [261009-vi8-ignorar-docs-e-briefing-no-gitignore](./quick/261009-vi8-ignorar-docs-e-briefing-no-gitignore/) |
 
 ## Session Continuity
 
