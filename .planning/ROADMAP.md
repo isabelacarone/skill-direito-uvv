@@ -120,7 +120,7 @@ Plans:
   1. Os 8 casos da seção 9 do briefing estão registrados no repositório com a entrada e a saída esperada
   2. Cada caso foi executado contra a skill e passa; falhas viram correção antes de dar a skill por pronta
 
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 **Wave 1**
@@ -129,7 +129,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 04-02-PLAN.md — tools/validar_tudo.py (TDD): verificadores, tabelas de tests/validacao, comparação dos relatórios .docx e portão --final
+- [x] 04-02-PLAN.md — tools/validar_tudo.py (TDD): verificadores, tabelas de tests/validacao, comparação dos relatórios .docx e portão --final
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -145,4 +145,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
 | 2. Formatar elementos | 4/4 | Complete   | 2026-10-09 |
 | 3. Checar documento | 3/3 | Complete   | 2026-10-10 |
-| 4. Validação | 1/3 | In Progress|  |
+| 4. Validação | 2/3 | In Progress|  |
