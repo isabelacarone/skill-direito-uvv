@@ -94,7 +94,7 @@ Plans:
   2. O relatório aponta citações longas sem recuo de 4 cm ou fora de Arial 10, numeração de página e seção primária que não começa em página nova
   3. Cada item sai com ✔ ou ✘, e o que o script não alcança aparece como "verificar manualmente"
 
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 **Wave 1**
@@ -103,7 +103,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 03-02-PLAN.md — citações longas, numeração de página e títulos (seção primária em página nova); 'verificar manualmente' para o que depende da paginação
+- [x] 03-02-PLAN.md — citações longas, numeração de página e títulos (seção primária em página nova); 'verificar manualmente' para o que depende da paginação
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -131,5 +131,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
 | 2. Formatar elementos | 4/4 | Complete   | 2026-10-09 |
-| 3. Checar documento | 1/3 | In Progress|  |
+| 3. Checar documento | 2/3 | In Progress|  |
 | 4. Validação | 0/TBD | Not started | - |
