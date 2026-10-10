@@ -15,7 +15,7 @@ A skill nasce em fatias que já funcionam sozinhas. Primeiro entra o modo Revisa
 - [x] **Phase 2: Formatar elementos** - Geração de citações, referências (inclusive legislação e jurisprudência), legendas, capa, folha de rosto e sumário
  (completed 2026-10-09)
 
-- [ ] **Phase 3: Checar documento** - Script que relata a formatação gráfica de um .docx
+- [x] **Phase 3: Checar documento** - Script que relata a formatação gráfica de um .docx (completed 2026-10-10)
 - [ ] **Phase 4: Validação** - Os 8 casos de teste do briefing rodam e passam
 
 ## Phase Details
@@ -94,7 +94,7 @@ Plans:
   2. O relatório aponta citações longas sem recuo de 4 cm ou fora de Arial 10, numeração de página e seção primária que não começa em página nova
   3. Cada item sai com ✔ ou ✘, e o que o script não alcança aparece como "verificar manualmente"
 
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
@@ -107,7 +107,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 03-03-PLAN.md — fluxo Checar documento no SKILL.md, checar_skill.py estendido, 4 casos em tests/checar e aprovação da autora
+- [x] 03-03-PLAN.md — fluxo Checar documento no SKILL.md, checar_skill.py estendido, 4 casos em tests/checar e aprovação da autora
 
 ### Phase 4: Validação
 
@@ -131,5 +131,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Revisar trechos | 5/5 | Complete   | 2026-10-09 |
 | 2. Formatar elementos | 4/4 | Complete   | 2026-10-09 |
-| 3. Checar documento | 2/3 | In Progress|  |
+| 3. Checar documento | 3/3 | Complete   | 2026-10-10 |
 | 4. Validação | 0/TBD | Not started | - |
