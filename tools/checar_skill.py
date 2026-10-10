@@ -13,8 +13,10 @@ RAIZ = cr.RAIZ
 SKILL = RAIZ / ".claude" / "skills" / "abnt-uvv-direito"
 CASOS = RAIZ / "tests" / "revisar"
 CASOS_FORMATAR = RAIZ / "tests" / "formatar"
+CASOS_CHECAR = RAIZ / "tests" / "checar"
 MIN_FORMATAR = 2
-PROIBIDAS_SKILL = ["Fase 2", "ainda não gera"]
+MIN_CHECAR = 3
+PROIBIDAS_SKILL = ["Fase 2", "ainda não gera", "existir na skill", "não está instalada"]
 ARQUIVOS = [
     "formatacao-grafica", "pre-textuais", "citacoes",
     "tabelas-ilustracoes", "referencias-direito", "regras-curso-direito",
@@ -32,7 +34,7 @@ SECOES_CASO = ["## Entrada", "## Esperado", "## Não pode"]
 CITACAO = re.compile(r"Manual (\d+(?:\.\d+)*), p\. (\d+)(?:[–-](\d+))?")
 
 
-def checar(skill=SKILL, casos=CASOS, mapa=None, casos_formatar=CASOS_FORMATAR):
+def checar(skill=SKILL, casos=CASOS, mapa=None, casos_formatar=CASOS_FORMATAR, casos_checar=CASOS_CHECAR):
     erros = []
     if mapa is None:
         mapa = json.loads((cr.TOOLS / "manual_mapa.json").read_text(encoding="utf-8"))
@@ -124,6 +126,9 @@ def base_controle():
     linhas = SKILL.joinpath("SKILL.md").read_text(encoding="utf-8").splitlines()
     linhas = [l for l in linhas if not any(p in l for p in PROIBIDAS_SKILL)]
     texto = "\n".join(linhas)
+    for extra in ("## Fluxo do modo Checar documento", "verificar manualmente", "cole o trecho"):
+        if extra not in texto:
+            texto += "\n" + extra
     if "## Fluxo do modo Formatar" not in texto:
         texto += "\n## Fluxo do modo Formatar"
     if "Regra aplicada:" not in texto:
@@ -140,7 +145,8 @@ def autoteste():
     mapa = json.loads((cr.TOOLS / "manual_mapa.json").read_text(encoding="utf-8"))
     base = base_controle()
 
-    def montar(tmp, texto, remover=None, casos=6, formatar=2, caso_f=CASO_NEUTRO):
+    def montar(tmp, texto, remover=None, casos=6, formatar=2, caso_f=CASO_NEUTRO,
+               checar=3, caso_c=CASO_NEUTRO, script=True):
         sk = tmp / "skill"
         (sk / "references").mkdir(parents=True)
         for a in ARQUIVOS:
@@ -156,7 +162,14 @@ def autoteste():
         cf.mkdir()
         for i in range(formatar):
             (cf / f"caso-0{i}.md").write_text(caso_f, encoding="utf-8")
-        return sk, cs, cf
+        cc = tmp / "checar"
+        cc.mkdir()
+        for i in range(checar):
+            (cc / f"caso-0{i}.md").write_text(caso_c, encoding="utf-8")
+        if script:
+            (sk / "scripts").mkdir()
+            (sk / "scripts" / "verificar_docx.py").write_text("# script de mentira\n", encoding="utf-8")
+        return sk, cs, cf, cc
 
     def caso(esperado):
         return f"## Entrada\n## Esperado\n{esperado}\n## Não pode\n"
@@ -179,11 +192,24 @@ def autoteste():
         "Fase 2 no SKILL": (base + "\nFase 2\n", None, 6, 2, CASO_NEUTRO, True),
         "sem fluxo Formatar": (base.replace("## Fluxo do modo Formatar", "## X"), None, 6, 2, CASO_NEUTRO, True),
         "poucos casos formatar": (base, None, 6, 1, CASO_NEUTRO, True),
+        "sem script verificar_docx": (base, None, 6, 2, CASO_NEUTRO, True, {"script": False}),
+        "sem fluxo Checar": (base.replace("## Fluxo do modo Checar documento", "## Y"), None, 6, 2, CASO_NEUTRO, True),
+        "texto existir na skill": (base + "\nexistir na skill\n", None, 6, 2, CASO_NEUTRO, True),
+        "poucos casos checar": (base, None, 6, 2, CASO_NEUTRO, True, {"checar": 2}),
+        "caso checar sem Esperado": (base, None, 6, 2, CASO_NEUTRO, True,
+                                     {"caso_c": "## Entrada\n## Não pode\n"}),
+        "caso checar com docx inexistente": (base, None, 6, 2, CASO_NEUTRO, True,
+                                             {"caso_c": caso("tests/checar/inexistente-zz.docx")}),
+        "caso checar com docx fora de tests/checar": (base, None, 6, 2, CASO_NEUTRO, False,
+                                                      {"caso_c": caso("C:/pasta-de-teste/nao-existe.docx")}),
+        "caso checar com relatorio em bloco": (base, None, 6, 2, CASO_NEUTRO, False,
+                                               {"caso_c": caso("```\n## Verificar manualmente\n```")}),
     }
-    for nome, (texto, remover, casos, formatar, caso_f, esperado_erro) in defeitos.items():
+    for nome, (texto, remover, casos, formatar, caso_f, esperado_erro, *resto) in defeitos.items():
+        extras = resto[0] if resto else {}
         with tempfile.TemporaryDirectory() as t:
-            sk, cs, cf = montar(Path(t), texto, remover, casos, formatar, caso_f)
-            erros = checar(sk, cs, mapa, casos_formatar=cf)
+            sk, cs, cf, cc = montar(Path(t), texto, remover, casos, formatar, caso_f, **extras)
+            erros = checar(sk, cs, mapa, casos_formatar=cf, casos_checar=cc)
         if bool(erros) != esperado_erro:
             print(f"FALHA no autoteste: {nome} (erros={erros[:2]})")
             ok = False
