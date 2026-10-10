@@ -36,7 +36,7 @@
 
 ### Qualidade
 
-- [x] **QA-01**: Os 8 casos de teste da seção 9 do briefing passam e ficam registrados no repositório
+- [ ] **QA-01**: Os 8 casos de teste da seção 9 do briefing passam e ficam registrados no repositório
 - [x] **QA-02**: Regra fora dos três documentos gera a resposta "não consta no manual", sem página inventada
 
 ## v2 Requirements
@@ -75,7 +75,7 @@
 | DOC-01 | Phase 3 | Complete |
 | DOC-02 | Phase 3 | Complete |
 | DOC-03 | Phase 3 | Complete |
-| QA-01 | Phase 4 | Complete |
+| QA-01 | Phase 4 | Pending |
 | QA-02 | Phase 1 | Complete |
 
 **Coverage:**
