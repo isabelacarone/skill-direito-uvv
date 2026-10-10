@@ -1,6 +1,6 @@
 ---
 name: abnt-uvv-direito
-description: Revisa e formata trabalhos do curso de Direito da UVV (Projeto de Pesquisa, Monografia I e TCC) segundo o Manual ABNT UVV 2024 e as regras do curso. Use ao revisar citações (direta, indireta, apud), referências (livros, artigos, legislação, jurisprudência), legendas de tabelas e figuras, capa, folha de rosto, sumário, resumo, margens, fontes e espaçamento, ou o estilo científico de um trecho do TCC.
+description: Revisa e formata trabalhos do curso de Direito da UVV (Projeto de Pesquisa, Monografia I e TCC) segundo o Manual ABNT UVV 2024 e as regras do curso. Use ao revisar citações (direta, indireta, apud), referências (livros, artigos, legislação, jurisprudência), legendas de tabelas e figuras, capa, folha de rosto, sumário, resumo, margens, fontes e espaçamento, ou o estilo científico de um trecho do TCC. Também checa a formatação gráfica de um arquivo .docx (margens, fonte, entrelinhas, citações longas, numeração de página e títulos).
 ---
 
 # ABNT UVV Direito
@@ -39,7 +39,7 @@ Abra os demais arquivos só se o trecho tiver o conteúdo correspondente. Não l
 2. Abra os arquivos da tabela acima.
 3. Compare o trecho regra a regra e monte a saída.
 
-Texto colado não permite verificar fonte, margem ou espaçamento. Diga isso em uma linha, sem presumir que está certo, e ofereça a checagem do .docx se `scripts/verificar_docx.py` existir na skill.
+Texto colado não permite verificar fonte, margem ou espaçamento. Diga isso em uma linha, sem presumir que está certo, e ofereça a checagem do .docx pelo `## Fluxo do modo Checar documento`.
 
 ## Régua do parecer
 
@@ -73,6 +73,15 @@ A coluna Origem da regra recebe o texto de origem COPIADO da linha de `reference
 4. Saída: o elemento em bloco de código, pronto para colar; abaixo, `Regra aplicada:` com a origem COPIADA da linha de modelo; `Formatação no Word:` quando houver recuo, fonte, espaçamento, alinhamento ou negrito que o texto puro não mostra; `Ajustes nos dados:` quando você normalizou algo fornecido (mês por extenso, link com `< >`, sobrenome em maiúsculas na chamada). Nada muda em silêncio.
 5. Citação direta sem a contagem de linhas: estime, como decisão de apoio e não como regra do manual. Arial 12 em A4 com margens de 3 e 2 cm comporta cerca de 75 caracteres por linha, então mais de 225 caracteres vira citação longa. A longa em Arial 10 com recuo de 4 cm comporta cerca de 65 caracteres por linha, então mais de 650 caracteres passa de 10 linhas e recebe o aviso da regra do curso. Diga que é estimativa e que a contagem vale no Word.
 
+## Fluxo do modo Checar documento
+
+1. Vale quando a autora aponta o caminho de um .docx ou pede para checar a formatação do documento. Se o arquivo for .doc, .docm ou PDF, peça que salve como .docx.
+2. Rode na raiz do repositório `python .claude/skills/abnt-uvv-direito/scripts/verificar_docx.py "<caminho>"`. Não abra o .docx por outro meio nem o altere.
+3. Entregue o relatório como veio (tabela, `## Verificar manualmente` e `Resumo:`). Não troque "verificar manualmente" por ✔ ou ✘, não acrescente item que o script não relatou e não mude a origem.
+4. Abaixo, `Como corrigir:` com uma linha por ✘, com o valor exigido copiado da linha da regra em `references/`.
+5. Saída 2: mostre a mensagem do script e peça o caminho certo ou o .docx, sem montar relatório. Se o comando `python` não for encontrado ou der `ModuleNotFoundError` de `docx`, diga que a checagem automática não roda neste computador, sugira `pip install python-docx` e peça que a autora cole o trecho para o modo Revisar.
+6. Ofereça o modo Revisar para o conteúdo, porque o script só checa a forma gráfica.
+
 ## Regra que não está nas fontes
 
 Se nenhuma linha de `references/` cobre a dúvida, responda "não consta no manual UVV", sem item e sem página. Indique a NBR aplicável só como orientação geral, pelo número da norma, sem página. Sugira confirmar com a Biblioteca Central da UVV.
@@ -87,5 +96,5 @@ Se nenhuma linha de `references/` cobre a dúvida, responda "não consta no manu
 
 ## Pedidos fora do modo Revisar
 
-- Arquivo .docx: se `scripts/verificar_docx.py` existir na skill, rode-o. Senão, diga que a checagem gráfica automática não está instalada e peça que a autora cole o trecho para revisão.
+- Arquivo .docx: siga o `## Fluxo do modo Checar documento`.
 - Gerar, formatar, montar ou ajustar elemento (citação, referência, legenda, capa, folha de rosto, sumário): siga o `## Fluxo do modo Formatar`.
