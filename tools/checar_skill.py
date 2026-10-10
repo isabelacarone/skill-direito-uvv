@@ -29,6 +29,7 @@ OBRIGATORIAS = [
     "Regra do curso", "NBR geral", "12 pt", "sem `< >`",
     "https://repositorio.uvv.br/handle/123456789/88",
     "Origem da regra", "## Fluxo do modo Formatar", "Regra aplicada:",
+    "## Fluxo do modo Checar documento", "verificar manualmente", "cole o trecho",
 ]
 SECOES_CASO = ["## Entrada", "## Esperado", "## Não pode"]
 CITACAO = re.compile(r"Manual (\d+(?:\.\d+)*), p\. (\d+)(?:[–-](\d+))?")
@@ -106,6 +107,24 @@ def checar(skill=SKILL, casos=CASOS, mapa=None, casos_formatar=CASOS_FORMATAR, c
             erros.append(f"{a.name}: link com < > em Esperado")
         for l in corpo.splitlines():
             erros += _erros_acesso(l, a.name)
+    # modo Checar documento: script na skill, casos fixos, origem em references/, docx existente
+    if not (Path(skill) / "scripts" / "verificar_docx.py").exists():
+        erros.append("scripts/verificar_docx.py ausente na skill")
+    arqs_c = sorted(Path(casos_checar).glob("caso-*.md")) if Path(casos_checar).exists() else []
+    if len(arqs_c) < MIN_CHECAR:
+        erros.append(f"apenas {len(arqs_c)} casos em tests/checar (min {MIN_CHECAR})")
+    for a in arqs_c:
+        t = a.read_text(encoding="utf-8")
+        fora_bloco = re.sub(r"^```.*?^```[ 	]*$", "", t, flags=re.S | re.M)
+        for s in SECOES_CASO:
+            if not re.search(r"^" + re.escape(s) + r"\s*$", fora_bloco, re.M):
+                erros.append(f"{a.name}: falta '{s}'")
+        for m in CITACAO.finditer(t):
+            if not any(m.group(0) in l for l in linhas_ref):
+                erros.append(f"{a.name}: origem '{m.group(0)}' nao aparece em nenhuma linha de references/")
+        for m in re.finditer(r"tests/checar/[\w.-]+\.docx", t):
+            if not (Path(casos_checar) / Path(m.group(0)).name).exists():
+                erros.append(f"{a.name}: {m.group(0)} nao existe")
     return erros
 
 
