@@ -115,7 +115,7 @@ def checar(skill=SKILL, casos=CASOS, mapa=None, casos_formatar=CASOS_FORMATAR, c
         erros.append(f"apenas {len(arqs_c)} casos em tests/checar (min {MIN_CHECAR})")
     for a in arqs_c:
         t = a.read_text(encoding="utf-8")
-        fora_bloco = re.sub(r"^```.*?^```[ 	]*$", "", t, flags=re.S | re.M)
+        fora_bloco = re.sub(r"^```.*?^```[ \t]*$", "", t, flags=re.S | re.M)
         for s in SECOES_CASO:
             if not re.search(r"^" + re.escape(s) + r"\s*$", fora_bloco, re.M):
                 erros.append(f"{a.name}: falta '{s}'")

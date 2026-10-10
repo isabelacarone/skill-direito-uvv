@@ -10,7 +10,7 @@ Seção: Desenvolvimento (TCC final).
 
 - Parecer `Crítico` (apud invertido é gravidade (a)).
 - Linha na tabela apontando a inversão, com origem `Manual 4.3, p. 39–40`.
-- Correção na ordem autor original apud autor consultado: `Segundo Freire (1994, p. ...) apud Streck (2017, p. 25)`, com o número de página do original deixado como `[Inserir autor, ano, p.]` se a autora não o informou.
+- Correção na ordem autor original apud autor consultado: `Segundo Freire (1994 apud Streck, 2017, p. 25)`; a página do original é opcional ("se houver", CIT-16): a skill pode omiti-la ou pedir à autora, nunca preencher com número.
 - Lembrete: na lista de referências entra só a fonte consultada (`Manual 4.3, p. 40`).
 
 ## Não pode
