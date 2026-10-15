@@ -98,6 +98,7 @@ None yet.
 | 261009-up0 | Corrigir ambiguidades da skill achadas na pré-rodada dos 8 casos | 2026-10-09 | 1ac4720 | [261009-up0-corrigir-ambiguidades-da-skill-achadas-n](./quick/261009-up0-corrigir-ambiguidades-da-skill-achadas-n/) |
 | 261009-vi8 | Ignorar docs/ e o briefing no .gitignore | 2026-10-09 | 3786705 | [261009-vi8-ignorar-docs-e-briefing-no-gitignore](./quick/261009-vi8-ignorar-docs-e-briefing-no-gitignore/) |
 | 261015-mha | Tabelas da skill em bloco de código copiável no chat desktop | 2026-10-15 | 979d42c | [261015-mha-tabelas-da-skill-em-bloco-de-c-digo-copi](./quick/261015-mha-tabelas-da-skill-em-bloco-de-c-digo-copi/) |
+| 261015-nw1 | Saída da skill pensada para colar no Word (web/desktop) | 2026-10-15 | edea9a8 | [261015-nw1-saida-para-colar-no-word](./quick/261015-nw1-saida-para-colar-no-word/) |
 
 ## Session Continuity
 
