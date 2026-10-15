@@ -64,6 +64,8 @@ Blocos, nesta ordem:
 | # | Trecho original | Origem da regra | Problema | Correção |
 |---|---|---|---|---|
 
+Entregue a tabela dentro de um bloco de código cercado (três crases, sem linguagem), com o cabeçalho e as linhas em Markdown como acima. No chat desktop a tabela renderizada não copia bem; o bloco de código traz o botão de copiar e preserva o texto exato. Vale para toda tabela da saída, inclusive a do `## Fluxo do modo Checar documento`.
+
 3. **Fundamentação e citações**: afirmações sem fonte, apud invertido, falta de página, supressão mal marcada, excesso de citação direta.
 4. **Próximos passos**: 3 a 5 ações.
 
@@ -83,7 +85,7 @@ A coluna Origem da regra recebe o texto de origem COPIADO da linha de `reference
 
 1. Vale quando a autora aponta o caminho de um .docx ou pede para checar a formatação do documento. Se o arquivo for .doc, .docm ou PDF, peça que salve como .docx.
 2. Rode na raiz do repositório `python .claude/skills/abnt-uvv-direito/scripts/verificar_docx.py "<caminho>"`. Não abra o .docx por outro meio nem o altere.
-3. Entregue o relatório como veio (tabela, `## Verificar manualmente` e `Resumo:`). Não troque "verificar manualmente" por ✔ ou ✘, não acrescente item que o script não relatou e não mude a origem.
+3. Entregue o relatório como veio (tabela, `## Verificar manualmente` e `Resumo:`), com a tabela dentro de um bloco de código cercado para ficar copiável no chat desktop; o conteúdo da tabela não muda. Não troque "verificar manualmente" por ✔ ou ✘, não acrescente item que o script não relatou e não mude a origem.
 4. Abaixo, `Como corrigir:` com uma linha por ✘, com o valor exigido copiado da linha da regra em `references/`.
 5. Códigos de saída: 0 = relatório sem ✘; 1 = há ✘ e o relatório é válido (entregue como nos passos 3 e 4; não é erro); 2 = arquivo recusado ou ilegível: mostre a mensagem do script e peça o caminho certo ou o .docx, sem montar relatório. Se o comando `python` não for encontrado ou der `ModuleNotFoundError` de `docx`, diga que a checagem automática não roda neste computador, sugira `pip install python-docx` e peça que a autora cole o trecho para o modo Revisar.
 6. Ofereça o modo Revisar para o conteúdo, porque o script só checa a forma gráfica.
