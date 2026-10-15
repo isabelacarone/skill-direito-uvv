@@ -64,8 +64,6 @@ Blocos, nesta ordem:
 | # | Trecho original | Origem da regra | Problema | Correção |
 |---|---|---|---|---|
 
-Entregue a tabela dentro de um bloco de código cercado (três crases, sem linguagem), com o cabeçalho e as linhas em Markdown como acima. No chat desktop a tabela renderizada não copia bem; o bloco de código traz o botão de copiar e preserva o texto exato. Vale para toda tabela da saída, inclusive a do `## Fluxo do modo Checar documento`.
-
 3. **Fundamentação e citações**: afirmações sem fonte, apud invertido, falta de página, supressão mal marcada, excesso de citação direta.
 4. **Próximos passos**: 3 a 5 ações.
 
@@ -73,19 +71,21 @@ Trecho de até 5 linhas leva só Parecer e Tabela; achados de fundamentação fi
 
 A coluna Origem da regra recebe o texto de origem COPIADO da linha de `references/` que sustenta o achado (por exemplo `Manual 4.1.3, p. 37`, `Regra do curso (Projeto de Pesquisa, Orientações Gerais)`, `NBR geral`), nunca escrito de memória. Cada linha tem UMA origem principal, a da linha de `references/` mais específica para o achado; quando a seção tem regra própria do curso que sustenta o achado, ela é a principal (afirmação sem fonte na Justificativa: CUR-08, `Regra do curso (Projeto de Pesquisa, item 1 Justificativa)`). Uma origem complementar pode vir depois de `; ` só se sustentar o mesmo achado (no exemplo, a de CIT-01). A precedência decide conflito de conteúdo entre fontes, não a ordem das origens na célula. Apud: página do original ausente é omitida, sem pedir e sem número (CIT-16, "se houver"). A coluna Correção traz o trecho já reescrito. Afirmação sem fonte recebe `[Inserir autor, ano, p.]` na correção. Nenhuma mudança fica fora da tabela.
 
+Uso no Word: a autora copia a resposta do Claude web ou desktop e cola no Word. Por isso a tabela sai como tabela Markdown comum (cola como tabela editável), sem bloco de código, e a coluna Correção traz o trecho pronto para substituir o original, com negrito e itálico em Markdown quando a norma pedir. Mantenha as células curtas e sem quebra de linha, para a tabela colar limpa.
+
 ## Fluxo do modo Formatar
 
 1. Vale para pedido de gerar, formatar, montar ou ajustar citação, referência, lista de referências, legenda, capa, folha de rosto ou sumário.
 2. Abra o arquivo da tabela "Qual arquivo abrir" e use a seção `Modelos para gerar (modo Formatar)`. Capa, folha de rosto e sumário exigem o tipo de documento (Projeto de Pesquisa/Monografia I ou TCC final): pergunte só se não der para deduzir.
 3. Confira os campos `Obrigatórios:` do modelo. Faltando algum, peça todos os faltantes numa única mensagem e não entregue o elemento. Em pedido com vários elementos, entregue os completos e retenha só os incompletos, com uma pergunta única. Se a autora não tiver o dado, entregue com `[Inserir <campo>]` no lugar, diga que a forma de indicar dado ausente "não consta no manual UVV", cite a NBR 6023:2020 (referências) ou NBR 10520:2023 (citações) só como orientação geral, sem página, e sugira a Biblioteca Central.
-4. Saída: o elemento em bloco de código, pronto para colar; abaixo, `Regra aplicada:` com a origem COPIADA da linha de modelo; `Formatação no Word:` quando houver recuo, fonte, espaçamento, alinhamento ou negrito que o texto puro não mostra; `Ajustes nos dados:` quando você normalizou algo fornecido (mês por extenso, link com `< >`, sobrenome em maiúsculas na chamada, editor reduzido por repetir o local, jurisdição deduzida, `Disponível em:`/`Acesso em:` normalizados; REF-63, REF-67, REF-69). Nada muda em silêncio.
+4. Saída: o elemento como texto normal, não em bloco de código, com negrito e itálico em Markdown onde a norma exige (por exemplo o título da obra em destaque), para colar no Word com a formatação. Bloco de código só quando o texto precisa sair literal, sem formatação (por exemplo um sumário com pontilhado e tabulação). Abaixo, `Regra aplicada:` com a origem COPIADA da linha de modelo; `Formatação no Word:` quando houver recuo, fonte, espaçamento, alinhamento ou negrito que o texto puro não mostra; `Ajustes nos dados:` quando você normalizou algo fornecido (mês por extenso, link com `< >`, sobrenome em maiúsculas na chamada, editor reduzido por repetir o local, jurisdição deduzida, `Disponível em:`/`Acesso em:` normalizados; REF-63, REF-67, REF-69). Nada muda em silêncio.
 5. Citação direta sem a contagem de linhas: estime conforme `## Estimativa de linhas`.
 
 ## Fluxo do modo Checar documento
 
 1. Vale quando a autora aponta o caminho de um .docx ou pede para checar a formatação do documento. Se o arquivo for .doc, .docm ou PDF, peça que salve como .docx.
-2. Rode na raiz do repositório `python .claude/skills/abnt-uvv-direito/scripts/verificar_docx.py "<caminho>"`. Não abra o .docx por outro meio nem o altere.
-3. Entregue o relatório como veio (tabela, `## Verificar manualmente` e `Resumo:`), com a tabela dentro de um bloco de código cercado para ficar copiável no chat desktop; o conteúdo da tabela não muda. Não troque "verificar manualmente" por ✔ ou ✘, não acrescente item que o script não relatou e não mude a origem.
+2. Este passo só roda onde há execução de comandos com acesso ao arquivo (Claude Code). No Claude web ou desktop sem isso, não improvise a checagem: diga em uma linha que a verificação automática do .docx não roda aqui, e peça que a autora cole o trecho para o modo Revisar e confira margens, fonte, entrelinhas e numeração direto no Word pelas linhas de `references/formatacao-grafica.md`; encerre o fluxo. Com execução disponível, rode na raiz do repositório `python .claude/skills/abnt-uvv-direito/scripts/verificar_docx.py "<caminho>"`. Não abra o .docx por outro meio nem o altere.
+3. Entregue o relatório como veio (tabela Markdown comum, `## Verificar manualmente` e `Resumo:`), sem alterar o conteúdo. Não troque "verificar manualmente" por ✔ ou ✘, não acrescente item que o script não relatou e não mude a origem.
 4. Abaixo, `Como corrigir:` com uma linha por ✘, com o valor exigido copiado da linha da regra em `references/`.
 5. Códigos de saída: 0 = relatório sem ✘; 1 = há ✘ e o relatório é válido (entregue como nos passos 3 e 4; não é erro); 2 = arquivo recusado ou ilegível: mostre a mensagem do script e peça o caminho certo ou o .docx, sem montar relatório. Se o comando `python` não for encontrado ou der `ModuleNotFoundError` de `docx`, diga que a checagem automática não roda neste computador, sugira `pip install python-docx` e peça que a autora cole o trecho para o modo Revisar.
 6. Ofereça o modo Revisar para o conteúdo, porque o script só checa a forma gráfica.
